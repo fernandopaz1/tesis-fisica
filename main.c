@@ -12,12 +12,22 @@ int soc_generator(int dim);
 float campo_medio(float *red, int dim);
 bool es_nodo_borde(int dim, int i, int j);
 int limpiar_red(float *red, int dim);
+int imprimir(float *red, int dim);
 
 int main(int argc,char *argv[]){
 
+    double total_time;
+	clock_t start, end;
+	start = clock();
+
     srand(31); 
     
-    soc_generator(4);
+    soc_generator(10);
+
+    end = clock();
+	//time count stops 
+    total_time = ((((double)(end - start)) / (double)CLOCKS_PER_SEC));	
+    printf("\nEl tiempo (segundos) requerido es:  %lf \n", total_time);	
 
     return 0;
 }
@@ -66,7 +76,7 @@ int soc_generator(int dim){
 
     red=(float*)malloc((dim*dim)*sizeof(float));
 
-    limpiar_red(red,dim);
+    // limpiar_red(red,dim);
 
     for(t=0;t<T_Final;t++){
         for(i=0;i<dim;i++){
@@ -74,11 +84,11 @@ int soc_generator(int dim){
                 if(!es_nodo_borde(dim,i,j)){
                     *(red+dim*i+j)=aleatorio();
                 }
-                printf("Aleatorio %d numero %lf\n",dim*i+j,*(red+dim*i+j));
             }
         }
     }
 
+    imprimir(red,dim);
 
     printf("El 0,0 es borde %d: ", es_nodo_borde(dim,0,0));
 
@@ -86,3 +96,14 @@ int soc_generator(int dim){
     return 0;
 }
 
+int imprimir(float *red, int dim){
+	int i,j;
+	for(i=0;i<dim;i++){
+		for(j=0;j<dim;j++){
+			if(*(red+dim*i+j)<10){printf("%.2f   ",*(red+dim*i+j));}
+			else{printf("%.2f  ",*(red+dim*i+j));}
+		}	
+	printf("\n");
+	}
+return 0;
+}
