@@ -25,3 +25,5 @@ cambiar los permisos del archivo compycorrer.sh con
 y ejecutar el archivo compycorrer.sh con
 
 `./compycorrer.sh`
+
+![imagen](https://user-images.githubusercontent.com/26823588/131282034-7a24f05a-b8c4-494f-8c8d-97ecefd94f5d.png)_Fig: Simulación de un sistema SOC utilizando una red de 60X60_
