@@ -63,34 +63,60 @@ float campo_medio(float *red, int dim){
     return B_tot/(dim*dim);
 }
 
+float suma_vecinos(float *red, int dim, int i, int j){
+    if(es_nodo_borde(dim,i,j)){
+        return 0.0;
+    }
+    return *(red+(i-1)*dim+j)+*(red+(i+1)*dim+j)+*(red+i*dim+j-1)+*(red+i*dim+j+1);
+}
+
+float aumentar_vecinos(float *red, int dim, int i, int j, float cantindad){
+    if(es_nodo_borde(dim,i,j)){
+        return 0.0;
+    }
+    *(red+(i-1)*dim+j)+=cantindad;
+    *(red+(i+1)*dim+j)+=cantindad;
+    *(red+i*dim+j-1)+=cantindad;
+    *(red+i*dim+j+1)+=cantindad;
+}
+
 bool es_nodo_borde(int dim, int i, int j){
     return i==0 || i==dim-1 || j==0 || j==dim-1;
 }
 
 int soc_generator(int dim){
     int i,j,k, t;
-    float *red, Z_c, sigma1, sigma2;
+    float *red, Z_c, sigma1, sigma2, e, g, Z_k;
     int T_Final=100;
+    float *c;
 
     int s=2*D+1;
 
     red=(float*)malloc((dim*dim)*sizeof(float));
+    c=(float*)malloc((dim*dim)*sizeof(float));
 
     // limpiar_red(red,dim);
 
     for(t=0;t<T_Final;t++){
+        e=0.0;
         for(i=0;i<dim;i++){
             for(j=0;j<dim;j++){
+                g=0.0;
+                Z_k= *(red+i*dim+j)-1/(2*D)*suma_vecinos(red,dim,i,j);
+                if(abs(Z_k)>Z_c){
+                    *(c+i*dim+j)-=(2*D/s)*Z_c;
+                    suma_vecinos(red,dim,i,j, Z_c/s);
+                    g=(2*D/s)*(2*abs(Z_k)/Z_c-1)*Z_c*Z_c;
+                    e+=g;
+                }
+                
                 if(!es_nodo_borde(dim,i,j)){
                     *(red+dim*i+j)=aleatorio();
                 }
             }
-        }
+        }    
+        imprimir(red,dim);
     }
-
-    imprimir(red,dim);
-
-    printf("El 0,0 es borde %d: ", es_nodo_borde(dim,0,0));
 
     free(red);
     return 0;
@@ -105,5 +131,6 @@ int imprimir(float *red, int dim){
 		}	
 	printf("\n");
 	}
+    printf("\n\n");
 return 0;
 }
