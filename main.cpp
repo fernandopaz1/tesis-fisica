@@ -105,9 +105,6 @@ float suma_vecinos(float *red, int dim, int i, int j){
 }
 
 int aumentar_vecinos(float *red, int dim, int i, int j, float cantindad){
-    if(es_nodo_borde(dim,i,j)){
-        return 0;
-    }
     *(red+(i-1)*dim+j)+=cantindad*(!es_nodo_borde(dim,i-1,j));
     *(red+(i+1)*dim+j)+=cantindad*(!es_nodo_borde(dim,i+1,j));
     *(red+i*dim+j-1)+=cantindad*(!es_nodo_borde(dim,i,j-1));
@@ -116,7 +113,7 @@ int aumentar_vecinos(float *red, int dim, int i, int j, float cantindad){
 }
 
 bool es_nodo_borde(int dim, int i, int j){
-    return i==0 || i==dim-1 || j==0 || j==dim-1;
+    return (i==0) || (i==(dim-1)) || (j==0) || (j==(dim-1));
 }
 
 int actualizar_red(float *red_dest, float *red_orig, int dim){
@@ -158,10 +155,10 @@ int soc_generator(int dim){
             for(j=0;j<dim;j++){
                 g=0.0;
                 Z_k= *(red+i*dim+j)-1/(2*D)*suma_vecinos(red,dim,i,j);
-                if(Z_k>Z_c){
+                if(abs(Z_k)>Z_c){
                     *(c+i*dim+j)=*(c+i*dim+j)-(2*D/s)*Z_c;
                     aumentar_vecinos(c,dim,i,j,Z_c/s);
-                    g=(2*D/s)*(2*Z_k/Z_c-1)*Z_c*Z_c;
+                    g=(2*D/s)*(2*abs(Z_k)/Z_c-1)*Z_c*Z_c;
                     e+=g;
                 }
             }
