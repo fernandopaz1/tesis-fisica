@@ -19,7 +19,7 @@ int limpiar_red(float *red, int dim);
 float campo_medio(float *red, int dim);
 float suma_vecinos(float *red, int dim, int i, int j);
 bool es_nodo_borde(int dim, int i, int j);
-int copiar_red(float *red_dest, float *red_orig, int dim);
+int actualizar_red(float *red_dest, float *red_orig, int dim);
 int rand(void);
 float aleatorio(void);
 int soc_generator(int dim);
@@ -119,11 +119,15 @@ bool es_nodo_borde(int dim, int i, int j){
     return i==0 || i==dim-1 || j==0 || j==dim-1;
 }
 
-int copiar_red(float *red_dest, float *red_orig, int dim){
+int actualizar_red(float *red_dest, float *red_orig, int dim){
     int i,j;
     for(i=0;i<dim;i++){
         for(j=0;j<dim;j++){
-            *(red_dest+i*dim+j)=*(red_orig+i*dim+j);
+            if(es_nodo_borde(dim,i,j)){
+                *(red_dest+i*dim+j)=0.0;
+            }else{
+                *(red_dest+i*dim+j)=*(red_dest+i*dim+j)+*(red_orig+i*dim+j);
+            }
             *(red_orig+i*dim+j)=0.0;
         }
     }
@@ -155,7 +159,7 @@ int soc_generator(int dim){
                 g=0.0;
                 Z_k= *(red+i*dim+j)-1/(2*D)*suma_vecinos(red,dim,i,j);
                 if(Z_k>Z_c){
-                    *(c+i*dim+j)-=(2*D/s)*Z_c;
+                    *(c+i*dim+j)=*(c+i*dim+j)-(2*D/s)*Z_c;
                     aumentar_vecinos(c,dim,i,j,Z_c/s);
                     g=(2*D/s)*(2*Z_k/Z_c-1)*Z_c*Z_c;
                     e+=g;
@@ -163,11 +167,10 @@ int soc_generator(int dim){
             }
         }
         if(e>0){
-            copiar_red(red,c,dim);
+            actualizar_red(red,c,dim);
         }else{
             perturbar_nodo_aleatorio(red,dim,sigma1,sigma2);
-        }
-        
+        }        
     }
 
     graficar(red,dim);
