@@ -2,8 +2,10 @@
 
 Este repositorio contiene simulaciones que forman parte de mi trabajo de tesis de licenciatura.
 
-![imagen](https://user-images.githubusercontent.com/26823588/131282034-7a24f05a-b8c4-494f-8c8d-97ecefd94f5d.png)
-_Fig: Simulación de un sistema SOC utilizando una red de 60X60_
+<figure class="image">
+  <img src="https://user-images.githubusercontent.com/26823588/131282034-7a24f05a-b8c4-494f-8c8d-97ecefd94f5d.png" alt="{{ include.description }}">
+  <figcaption>Fig: Simulación de un sistema SOC utilizando una red de 60X60.</figcaption>
+</figure>
 
 Para correr este proyecto es necesario instalar instalar librerias con los siguientes comandos.
 
