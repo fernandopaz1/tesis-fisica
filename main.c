@@ -84,6 +84,16 @@ bool es_nodo_borde(int dim, int i, int j){
     return i==0 || i==dim-1 || j==0 || j==dim-1;
 }
 
+int copiar_red(float *red_dest, float *red_orig, int dim){
+    int i,j;
+    for(i=0;i<dim;i++){
+        for(j=0;j<dim;j++){
+            *(red_dest+i*dim+j)=*(red_orig+i*dim+j);
+            *(red_orig+i*dim+j)=0.0;
+        }
+    }
+}
+
 int soc_generator(int dim){
     int i,j,k, t;
     float *red, Z_c, sigma1, sigma2, e, g, Z_k;
@@ -109,13 +119,11 @@ int soc_generator(int dim){
                     g=(2*D/s)*(2*abs(Z_k)/Z_c-1)*Z_c*Z_c;
                     e+=g;
                 }
-                
-                if(!es_nodo_borde(dim,i,j)){
-                    *(red+dim*i+j)=aleatorio();
-                }
             }
-        }    
-        imprimir(red,dim);
+        }
+        if(e>0){
+            copiar_red(red,c,dim);
+        }
     }
 
     free(red);
