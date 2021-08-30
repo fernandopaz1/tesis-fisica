@@ -6,6 +6,16 @@
 
 #define D 2 
 
+
+int entero_aleatorio(int a, int b);
+float campo_aleatoro(float sigma1, float sigma2);
+int perturbar_nodo_aleatorio(float *red, int dim, float sigma1,float sigma2);
+int limpiar_red(float *red, int dim);
+float campo_medio(float *red, int dim);
+float suma_vecinos(float *red, int dim, int i, int j);
+float aumentar_vecinos(float *red, int dim, int i, int j, float cantindad);
+bool es_nodo_borde(int dim, int i, int j);
+int copiar_red(float *red_dest, float *red_orig, int dim);
 int rand(void);
 float aleatorio(void);
 int soc_generator(int dim);
@@ -13,6 +23,7 @@ float campo_medio(float *red, int dim);
 bool es_nodo_borde(int dim, int i, int j);
 int limpiar_red(float *red, int dim);
 int imprimir(float *red, int dim);
+float aumentar_vecinos(float *red, int dim, int i, int j, float cantindad);
 
 int main(int argc,char *argv[]){
 
@@ -22,7 +33,7 @@ int main(int argc,char *argv[]){
 
     srand(31); 
     
-    soc_generator(10);
+    soc_generator(12);
 
     end = clock();
 	//time count stops 
@@ -37,6 +48,24 @@ float aleatorio(void){
 	float a;
 	a=((float)rand())/((float)RAND_MAX);
 	return a;
+}
+
+int entero_aleatorio(int a, int b){
+	int r;
+	r=a+(int)((b-a+1)*aleatorio());
+	return r;
+}
+
+float campo_aleatoro(float sigma1, float sigma2){
+    float diferencia = sigma1 - sigma2;
+    float r = aleatorio()*diferencia;
+    return r + sigma2;
+}
+
+int perturbar_nodo_aleatorio(float *red, int dim,float sigma1, float sigma2){
+    int i= entero_aleatorio(1, dim-1);
+    int j= entero_aleatorio(1, dim-1);
+    *(red+i*dim+j)=campo_aleatoro(sigma1,sigma2);
 }
 
 int limpiar_red(float *red, int dim){
@@ -97,10 +126,15 @@ int copiar_red(float *red_dest, float *red_orig, int dim){
 int soc_generator(int dim){
     int i,j,k, t;
     float *red, Z_c, sigma1, sigma2, e, g, Z_k;
-    int T_Final=100;
+    int T_Final=100000;
     float *c;
 
     int s=2*D+1;
+    sigma1=-0.2;
+    sigma2=0.8;
+    Z_c=5.0;
+
+
 
     red=(float*)malloc((dim*dim)*sizeof(float));
     c=(float*)malloc((dim*dim)*sizeof(float));
@@ -115,7 +149,7 @@ int soc_generator(int dim){
                 Z_k= *(red+i*dim+j)-1/(2*D)*suma_vecinos(red,dim,i,j);
                 if(abs(Z_k)>Z_c){
                     *(c+i*dim+j)-=(2*D/s)*Z_c;
-                    suma_vecinos(red,dim,i,j, Z_c/s);
+                    aumentar_vecinos(c,dim,i,j,Z_c/s);
                     g=(2*D/s)*(2*abs(Z_k)/Z_c-1)*Z_c*Z_c;
                     e+=g;
                 }
@@ -123,9 +157,12 @@ int soc_generator(int dim){
         }
         if(e>0){
             copiar_red(red,c,dim);
+        }else{
+            perturbar_nodo_aleatorio(red,dim,sigma1,sigma2);
         }
+        
     }
-
+    imprimir(red,dim);
     free(red);
     return 0;
 }
