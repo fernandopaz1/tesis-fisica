@@ -4,6 +4,11 @@
 #include<time.h>
 #include <stdbool.h>
 
+#include <vector>
+#include <cmath>
+#include <boost/tuple/tuple.hpp>
+#include "gnuplot-iostream.h"
+
 #define D 2 
 
 
@@ -13,7 +18,6 @@ int perturbar_nodo_aleatorio(float *red, int dim, float sigma1,float sigma2);
 int limpiar_red(float *red, int dim);
 float campo_medio(float *red, int dim);
 float suma_vecinos(float *red, int dim, int i, int j);
-float aumentar_vecinos(float *red, int dim, int i, int j, float cantindad);
 bool es_nodo_borde(int dim, int i, int j);
 int copiar_red(float *red_dest, float *red_orig, int dim);
 int rand(void);
@@ -23,7 +27,8 @@ float campo_medio(float *red, int dim);
 bool es_nodo_borde(int dim, int i, int j);
 int limpiar_red(float *red, int dim);
 int imprimir(float *red, int dim);
-float aumentar_vecinos(float *red, int dim, int i, int j, float cantindad);
+int aumentar_vecinos(float *red, int dim, int i, int j, float cantindad);
+int graficar(float *red, int dim);
 
 int main(int argc,char *argv[]){
 
@@ -32,8 +37,7 @@ int main(int argc,char *argv[]){
 	start = clock();
 
     srand(31); 
-    
-    soc_generator(12);
+    soc_generator(60);
 
     end = clock();
 	//time count stops 
@@ -66,6 +70,7 @@ int perturbar_nodo_aleatorio(float *red, int dim,float sigma1, float sigma2){
     int i= entero_aleatorio(1, dim-1);
     int j= entero_aleatorio(1, dim-1);
     *(red+i*dim+j)=campo_aleatoro(sigma1,sigma2);
+    return 0;
 }
 
 int limpiar_red(float *red, int dim){
@@ -99,14 +104,15 @@ float suma_vecinos(float *red, int dim, int i, int j){
     return *(red+(i-1)*dim+j)+*(red+(i+1)*dim+j)+*(red+i*dim+j-1)+*(red+i*dim+j+1);
 }
 
-float aumentar_vecinos(float *red, int dim, int i, int j, float cantindad){
+int aumentar_vecinos(float *red, int dim, int i, int j, float cantindad){
     if(es_nodo_borde(dim,i,j)){
-        return 0.0;
+        return 0;
     }
-    *(red+(i-1)*dim+j)+=cantindad;
-    *(red+(i+1)*dim+j)+=cantindad;
-    *(red+i*dim+j-1)+=cantindad;
-    *(red+i*dim+j+1)+=cantindad;
+    *(red+(i-1)*dim+j)+=cantindad*(!es_nodo_borde(dim,i-1,j));
+    *(red+(i+1)*dim+j)+=cantindad*(!es_nodo_borde(dim,i+1,j));
+    *(red+i*dim+j-1)+=cantindad*(!es_nodo_borde(dim,i,j-1));
+    *(red+i*dim+j+1)+=cantindad*(!es_nodo_borde(dim,i,j+1));
+    return 0;
 }
 
 bool es_nodo_borde(int dim, int i, int j){
@@ -121,12 +127,13 @@ int copiar_red(float *red_dest, float *red_orig, int dim){
             *(red_orig+i*dim+j)=0.0;
         }
     }
+    return 0;
 }
 
 int soc_generator(int dim){
     int i,j,k, t;
     float *red, Z_c, sigma1, sigma2, e, g, Z_k;
-    int T_Final=100000;
+    int T_Final=1000000;
     float *c;
 
     int s=2*D+1;
@@ -147,10 +154,10 @@ int soc_generator(int dim){
             for(j=0;j<dim;j++){
                 g=0.0;
                 Z_k= *(red+i*dim+j)-1/(2*D)*suma_vecinos(red,dim,i,j);
-                if(abs(Z_k)>Z_c){
+                if(Z_k>Z_c){
                     *(c+i*dim+j)-=(2*D/s)*Z_c;
                     aumentar_vecinos(c,dim,i,j,Z_c/s);
-                    g=(2*D/s)*(2*abs(Z_k)/Z_c-1)*Z_c*Z_c;
+                    g=(2*D/s)*(2*Z_k/Z_c-1)*Z_c*Z_c;
                     e+=g;
                 }
             }
@@ -162,7 +169,8 @@ int soc_generator(int dim){
         }
         
     }
-    imprimir(red,dim);
+
+    graficar(red,dim);
     free(red);
     return 0;
 }
@@ -178,4 +186,24 @@ int imprimir(float *red, int dim){
 	}
     printf("\n\n");
 return 0;
+}
+
+int graficar(float *red, int dim){
+    float frame[60][60];
+    for (int n=0; n<dim; n++){
+        for (int m=0; m<dim; m++){
+            frame[n][m]=*(red +dim*n+m);
+        }
+    }
+    Gnuplot gp;
+    gp << "unset key\n";
+    gp << "set pm3d\n";
+    gp << "set hidden3d\n";
+    gp << "set view map\n";
+    gp << "set xrange [ -1 : 60 ] \n";
+    gp << "set yrange [ -1 : 60 ] \n";
+    gp << "splot '-'\n";
+    gp.send2d(frame);
+    gp.flush();
+    return 0;
 }
