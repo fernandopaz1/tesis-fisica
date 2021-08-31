@@ -7,6 +7,8 @@ Este repositorio contiene simulaciones que forman parte de mi trabajo de tesis d
   <figcaption>Fig: Simulación de un sistema SOC utilizando una red de 60X60.</figcaption>
 </figure>
 
+## Ejecutar este proyecto
+
 Para correr este proyecto es necesario instalar instalar librerias con los siguientes comandos.
 
 `sudo apt-get install g++`
