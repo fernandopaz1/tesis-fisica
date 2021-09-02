@@ -2,7 +2,7 @@
 
 int perturbar_nodo_aleatorio(float *red, int dim, float sigma1,float sigma2);
 int limpiar_red(float *red, int dim);
-float campo_medio(float *red, int dim);
+float energia_total(float *red, int dim);
 float suma_vecinos(float *red, int dim, int i, int j);
 bool es_nodo_borde(int dim, int i, int j);
 int actualizar_red(float *red_dest, float *red_orig, int dim);
@@ -32,8 +32,9 @@ int limpiar_red(float *red, int dim){
     return 0;
 }
 
-float campo_medio(float *red, int dim){
-    int i,j,B_tot=0;
+float energia_total(float *red, int dim){
+    int i,j;
+    float B_tot=0.0;
 
     for(i=0;i<dim;i++){
         for(j=0;j<dim;j++){
@@ -41,7 +42,7 @@ float campo_medio(float *red, int dim){
         }
     }
 
-    return B_tot/(dim*dim);
+    return B_tot/(1.0*(dim*dim));
 }
 
 float suma_vecinos(float *red, int dim, int i, int j){

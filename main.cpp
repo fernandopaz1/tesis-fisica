@@ -12,7 +12,7 @@ int main(int argc,char *argv[]){
 
     srand(time(NULL));
     // srand(31); 
-    soc_generator(60);
+    soc_generator(14);
 
     end = clock();
 	//time count stops 

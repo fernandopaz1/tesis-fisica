@@ -3,11 +3,13 @@
 #include <boost/tuple/tuple.hpp>
 #include "gnuplot-iostream.h"
 
-const int DIM = 60;
+const int DIM = 14;
+const int LONGITUD = 1000000;
+
 
 int graficar(float *red, int dim);
 int imprimir(float *red, int dim);
-
+int greaficar_vector(float *vector, int longitud);
 
 int graficar(float *red, int dim){
     float frame[DIM][DIM];
@@ -30,6 +32,23 @@ int graficar(float *red, int dim){
     gp.flush();
     return 0;
 }   
+
+
+int greaficar_vector(float *vector, int longitud){
+    float frame[LONGITUD];
+    for (int n=0; n<longitud; n++){
+            frame[n]=*(vector +n);
+    }
+
+    Gnuplot gpV;
+    gpV << "unset key\n";
+    gpV << "set autoscale yfix\n";
+    gpV << "set xrange [ -1 : 1000000 ] \n";
+    gpV << "plot '-'\n";
+    gpV.send1d(frame);
+    gpV.flush();
+    return 0;
+}
 
 int imprimir(float *red, int dim){
 	int i,j;
