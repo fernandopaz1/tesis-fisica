@@ -765,4 +765,8 @@ cython_debug/
 pyvenv.cfg
 pip-selfcheck.json
 
+# Tipos de datos
+*.csv
+
+
 # End of https://www.toptal.com/developers/gitignore/api/python,virtualenv
