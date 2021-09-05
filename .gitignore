@@ -768,5 +768,7 @@ pip-selfcheck.json
 # Tipos de datos
 *.csv
 
+# Paremetros de C
+parametros.h
 
 # End of https://www.toptal.com/developers/gitignore/api/python,virtualenv

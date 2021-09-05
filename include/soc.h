@@ -20,21 +20,21 @@ int soc_generator(int dim){
 
 
 
-    red=(float*)malloc((dim*dim)*sizeof(float));
-    c=(float*)malloc((dim*dim)*sizeof(float));
-    energia=(float*)malloc((1000000)*sizeof(float));
+    red=(float*)malloc((DIM*DIM)*sizeof(float));
+    c=(float*)malloc((DIM*DIM)*sizeof(float));
+    energia=(float*)malloc((ITERACIONES)*sizeof(float));
 
     // limpiar_red(red,dim);
 
     for(t=0;t<T_Final;t++){
         e=0.0;
-        for(i=0;i<dim;i++){
-            for(j=0;j<dim;j++){
+        for(i=0;i<DIM;i++){
+            for(j=0;j<DIM;j++){
                 // printf("D es %f y s es %f",D,s);
-                Z_k= *(red+i*dim+j)-(1.0/(2.0*D))*suma_vecinos(red,dim,i,j);       
+                Z_k= *(red+i*DIM+j)-(1.0/(2.0*D))*suma_vecinos(red,DIM,i,j);       
                 if(abs(Z_k)>Z_c){
-                    *(c+i*dim+j)-=(2.0*D/s)*Z_c;
-                    aumentar_vecinos(c,dim,i,j,Z_c/s);
+                    *(c+i*DIM+j)-=(2.0*D/s)*Z_c;
+                    aumentar_vecinos(c,DIM,i,j,Z_c/s);
                     g=(2*D/s)*(2.0*abs(Z_k)/Z_c-1.0)*Z_c*Z_c;
                     e+=g;
                     // printf("e es %f\n",e);
@@ -44,18 +44,18 @@ int soc_generator(int dim){
         }
         if(e>0){
             // printf("--------------------Energia %f\n",e);
-            actualizar_red(red,c,dim);
+            actualizar_red(red,c,DIM);
         }else{
-            perturbar_nodo_aleatorio(red,dim,sigma1,sigma2);
+            perturbar_nodo_aleatorio(red,DIM,sigma1,sigma2);
         }
             // *(energia+i)=e;
         if(t%100==0){
-            fprintf(fp,"%d,%lf,%lf\n", t,e,energia_total(red,dim));
+            fprintf(fp,"%d,%lf,%lf\n", t,e,energia_total(red,DIM));
         }
         }
     // printf("%d\n", t);
-    // // graficar(red,dim);
-    // greaficar_vector(energia,1000000);
+    graficar(red,DIM);
+    greaficar_vector(energia,ITERACIONES);
     free(red);
     free(fp);
     return 0;

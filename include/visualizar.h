@@ -40,7 +40,7 @@ int greaficar_vector(float *vector, int longitud){
     Gnuplot gpV;
     gpV << "unset key\n";
     gpV << "set autoscale yfix\n";
-    gpV << "set xrange [ -1 : 1000000 ] \n";
+    // gpV << "set xrange [ -1 : %s ] \n",ITERACIONES;
     gpV << "plot '-'\n";
     gpV.send1d(frame);
     gpV.flush();
