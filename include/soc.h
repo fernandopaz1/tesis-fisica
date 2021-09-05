@@ -1,3 +1,4 @@
+#include "parametros.h"
 #include "visualizar.h"
 #include "operacion-redes.h"
 
@@ -8,7 +9,7 @@ int soc_generator(int dim);
 int soc_generator(int dim){
     int i,j,k, t;
     float *red,*energia, Z_c, sigma1, sigma2, e, g, Z_k;
-    int T_Final=10000000;
+    int T_Final=ITERACIONES;
     float *c;
     FILE *fp = fopen("datos.csv", "w");
     fprintf(fp,"Iteraciones,Energia_liberada,Energia_total\n");

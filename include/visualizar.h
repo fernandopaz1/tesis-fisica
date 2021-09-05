@@ -3,9 +3,6 @@
 #include <boost/tuple/tuple.hpp>
 #include "gnuplot-iostream.h"
 
-const int DIM = 14;
-const int LONGITUD = 1000000;
-
 
 int graficar(float *red, int dim);
 int imprimir(float *red, int dim);
@@ -35,7 +32,7 @@ int graficar(float *red, int dim){
 
 
 int greaficar_vector(float *vector, int longitud){
-    float frame[LONGITUD];
+    float frame[ITERACIONES];
     for (int n=0; n<longitud; n++){
             frame[n]=*(vector +n);
     }
