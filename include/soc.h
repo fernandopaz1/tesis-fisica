@@ -16,7 +16,7 @@ int soc_generator(int dim){
     float s=2.0*D+1.0;
     sigma1=-0.2;
     sigma2=0.8;
-    Z_c=1.0;
+    Z_c=0.86;
 
 
 
@@ -30,8 +30,8 @@ int soc_generator(int dim){
         e=0.0;
         for(i=0;i<DIM;i++){
             for(j=0;j<DIM;j++){
-                // printf("D es %f y s es %f",D,s);
                 Z_k= *(red+i*DIM+j)-(1.0/(2.0*D))*suma_vecinos(red,DIM,i,j);       
+                // printf("El resultado del if es %d con Z_k=%f y Z_c=%f\n",abs(Z_k)>Z_c,abs(Z_k),Z_c);
                 if(abs(Z_k)>Z_c){
                     *(c+i*DIM+j)-=(2.0*D/s)*Z_c;
                     aumentar_vecinos(c,DIM,i,j,Z_c/s);
@@ -41,7 +41,7 @@ int soc_generator(int dim){
                 }
             }
         }
-        if(e>0){
+        if(e>0.0){
             // printf("--------------------Energia %f\n",e);
             actualizar_red(red,c,DIM);
         }else{
@@ -51,7 +51,7 @@ int soc_generator(int dim){
         if(t%100==0){
             fprintf(fp,"%d,%lf,%lf\n", t,e,energia_total(red,DIM));
         }
-        }
+    }
     // printf("%d\n", t);
     graficar(red,DIM);
     // greaficar_vector(energia,ITERACIONES);
