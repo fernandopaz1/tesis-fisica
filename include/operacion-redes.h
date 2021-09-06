@@ -46,17 +46,39 @@ float energia_total(float *red, int dim){
 }
 
 float suma_vecinos(float *red, int dim, int i, int j){
-    if(es_nodo_borde(dim,i,j)){
-        return 0.0;
+    if(i==0){
+        if(j==0){
+            return  *(red+(i+1)*dim+j)+*(red+i*dim+j+1);
+        }
+        return *(red+(i+1)*dim+j)+*(red+i*dim+j-1)+*(red+i*dim+j+1); 
     }
-    return *(red+(i-1)*dim+j)+*(red+(i+1)*dim+j)+*(red+i*dim+j-1)+*(red+i*dim+j+1);
+    if(j==0){
+        return *(red+(i-1)*dim+j)*+*(red+(i+1)*dim+j)+*(red+i*dim+j+1);
+    }
+    if(i==(dim-1)){
+        if(j==(dim-1)){
+            return *(red+(i-1)*dim+j)*+*(red+i*dim+j-1);
+        }
+    }
+    if(j==(dim-1)){
+         return *(red+(i-1)*dim+j)*+*(red+(i+1)*dim+j)+*(red+i*dim+j-1);
+    }
+    return *(red+(i-1)*dim+j)*+*(red+(i+1)*dim+j)+*(red+i*dim+j-1)+*(red+i*dim+j+1);
 }
 
 int aumentar_vecinos(float *red, int dim, int i, int j, float cantindad){
-    *(red+(i-1)*dim+j)+=cantindad*(!es_nodo_borde(dim,i-1,j));
-    *(red+(i+1)*dim+j)+=cantindad*(!es_nodo_borde(dim,i+1,j));
-    *(red+i*dim+j-1)+=cantindad*(!es_nodo_borde(dim,i,j-1));
-    *(red+i*dim+j+1)+=cantindad*(!es_nodo_borde(dim,i,j+1));
+    if(i != 0){
+        *(red+(i-1)*dim+j)+=cantindad;
+    }
+    if(i != (dim-1)){
+        *(red+(i+1)*dim+j)+=cantindad;
+    }
+    if(j != 0){
+        *(red+i*dim+j-1)+=cantindad;
+    }
+    if(j != (dim-1)){
+        *(red+i*dim+j+1)+=cantindad;
+    }
     return 0;
 }
 
@@ -68,11 +90,7 @@ int actualizar_red(float *red_dest, float *red_orig, int dim){
     int i,j;
     for(i=0;i<dim;i++){
         for(j=0;j<dim;j++){
-            if(es_nodo_borde(dim,i,j)){
-                *(red_dest+i*dim+j)=0.0;
-            }else{
-                *(red_dest+i*dim+j)=*(red_dest+i*dim+j)+*(red_orig+i*dim+j);
-            }
+            *(red_dest+i*dim+j)=*(red_dest+i*dim+j)+*(red_orig+i*dim+j);
             *(red_orig+i*dim+j)=0.0;
         }
     }
