@@ -771,4 +771,9 @@ pip-selfcheck.json
 # Paremetros de C
 parametros.h
 
+# Imagenes
+imagenes/*
+*.png
+*.jpeg
+
 # End of https://www.toptal.com/developers/gitignore/api/python,virtualenv

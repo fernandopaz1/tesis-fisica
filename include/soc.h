@@ -40,7 +40,6 @@ int soc_generator(int dim){
                     // printf("e es %f\n",e);
                 }
             }
-
         }
         if(e>0){
             // printf("--------------------Energia %f\n",e);
@@ -55,7 +54,7 @@ int soc_generator(int dim){
         }
     // printf("%d\n", t);
     graficar(red,DIM);
-    greaficar_vector(energia,ITERACIONES);
+    // greaficar_vector(energia,ITERACIONES);
     free(red);
     free(fp);
     return 0;
