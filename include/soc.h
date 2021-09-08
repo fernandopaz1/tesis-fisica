@@ -48,9 +48,7 @@ int soc_generator(int dim){
             perturbar_nodo_aleatorio(red,DIM,sigma1,sigma2);
         }
             // *(energia+i)=e;
-        if(t%100==0){
-            fprintf(fp,"%d,%lf,%lf\n", t,e,energia_total(red,DIM));
-        }
+        fprintf(fp,"%d,%lf,%lf\n", t,e,energia_total(red,DIM));
     }
     // printf("%d\n", t);
     graficar(red,DIM);

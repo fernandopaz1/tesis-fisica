@@ -63,20 +63,27 @@ float suma_vecinos(float *red, int dim, int i, int j){
         if(j==0){
             return  *(red+(i+1)*dim+j)+*(red+i*dim+j+1);
         }
+        if(j==dim-1){
+          return *(red+(i+1)*dim+j)+*(red+i*dim+j-1);
+        }
         return *(red+(i+1)*dim+j)+*(red+i*dim+j-1)+*(red+i*dim+j+1); 
-    }
-    if(j==0){
-        return *(red+(i-1)*dim+j)*+*(red+(i+1)*dim+j)+*(red+i*dim+j+1);
     }
     if(i==(dim-1)){
         if(j==(dim-1)){
-            return *(red+(i-1)*dim+j)*+*(red+i*dim+j-1);
+            return *(red+(i-1)*dim+j)+*(red+i*dim+j-1);
+        }
+        if(j==0){
+            return *(red+(i-1)*dim+j)+*(red+i*dim+j+1);
+
         }
     }
     if(j==(dim-1)){
-         return *(red+(i-1)*dim+j)*+*(red+(i+1)*dim+j)+*(red+i*dim+j-1);
+         return *(red+(i-1)*dim+j)+*(red+(i+1)*dim+j)+*(red+i*dim+j-1);
     }
-    return *(red+(i-1)*dim+j)*+*(red+(i+1)*dim+j)+*(red+i*dim+j-1)+*(red+i*dim+j+1);
+    if(j==0){
+        return *(red+(i-1)*dim+j)+*(red+(i+1)*dim+j)+*(red+i*dim+j+1);
+    }
+    return *(red+(i-1)*dim+j)+*(red+(i+1)*dim+j)+*(red+i*dim+j-1)+*(red+i*dim+j+1);
 }
 
 int aumentar_vecinos(float *red, int dim, int i, int j, float cantindad){
