@@ -7,10 +7,9 @@
 int soc_generator(int dim);
 
 int soc_generator(int dim){
-    int i,j,k, t;
-    float *red,*energia, Z_c, sigma1, sigma2, e, g, Z_k;
+    int i,j, t;
+    float *red, *c, Z_c, sigma1, sigma2, e, g, Z_k;
     int T_Final=ITERACIONES;
-    float *c;
     FILE *fp = fopen("datos.csv", "w");
     fprintf(fp,"Iteraciones,Energia_liberada,Energia_total\n");
     float s=2.0*D+1.0;
@@ -22,15 +21,17 @@ int soc_generator(int dim){
 
     red=(float*)malloc((DIM*DIM)*sizeof(float));
     c=(float*)malloc((DIM*DIM)*sizeof(float));
-    energia=(float*)malloc((ITERACIONES)*sizeof(float));
+    
+    limpiar_red(red,DIM);
+    limpiar_red(c,DIM);
 
     for(t=0;t<T_Final;t++){
         e=0.0;
         for(i=0;i<DIM;i++){
             for(j=0;j<DIM;j++){
                 Z_k= *(red+i*DIM+j)-(1.0/(2.0*D))*suma_vecinos(red,DIM,i,j);       
-                // printf("El resultado del if es %d con Z_k=%f y Z_c=%f\n",abs(Z_k)>Z_c,abs(Z_k),Z_c);
                 if(abs(Z_k)>Z_c){
+                    printf("El resultado del if es %d con Z_k=%f y Z_c=%f\n",abs(Z_k)>Z_c,abs(Z_k),Z_c);
                     *(c+i*DIM+j)-=(2.0*D/s)*Z_c;
                     aumentar_vecinos(c,DIM,i,j,Z_c/s);
                     g=((2.0*abs(Z_k)/Z_c)-1.0);
@@ -52,6 +53,7 @@ int soc_generator(int dim){
     }
     graficar(red,DIM);
     free(red);
+    free(c);
     free(fp);
     return 0;
 }
