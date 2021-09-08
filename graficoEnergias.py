@@ -6,13 +6,18 @@ import pandas as pd
 
 data = pd.read_csv("datos.csv") 
 
-print(data.head)
 
 plt.figure()
-plt.plot(data["Iteraciones"],data["Energia_liberada"])
+plt.plot(data["Iteraciones"],data["Energia_liberada"],  label="Energia liberada")
+plt.xlabel("Iteraciones")
+plt.ylabel("e_r")
+plt.legend()
 plt.show(block=False)
 
 
 plt.figure(2)
-plt.plot(data["Iteraciones"],data["Energia_total"])
+plt.plot(data["Iteraciones"],data["Energia_total"], label="Energia total")
+plt.xlabel("Iteraciones")
+plt.ylabel("e_t")
+plt.legend()
 plt.show()
