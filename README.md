@@ -29,9 +29,27 @@ cambiar los permisos del archivo compycorrer.sh con
 
 `chmod 744 compycorrer.sh`
 
-y ejecutar el archivo compycorrer.sh con
+y ejecutar el archivo compycorrer.sh con los parametros correspondientes al tamaño de la red y la cantidad de iteraciones, por ejemplo
 
-`./compycorrer.sh`
+`./compycorrer.sh 64 100000`
+
+## Dependencias de Python
+
+Para graficar el output de la simulacion se deben instalar las librerias en `requeriments.txt` con el comando
+
+`pip install -r requeriments.txt`
+
+o hacerlo dentro de un entorno virtual mediante los comandos
+
+`pip install virtualenv`
+
+`python -m venv env`
+
+`source env/bin/activate`
+
+`python -m pip install --upgrade pip `
+
+`pip install -r requeriments.txt`
 
 ## Ejecutar tests unitarios
 
