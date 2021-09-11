@@ -4,9 +4,9 @@
 
 #include "constantes.h"
 
-int soc_generator(int dim);
+int soc_generator();
 
-int soc_generator(int dim){
+int soc_generator(){
     int i,j, t;
     float *red, *c, Z_c, sigma1, sigma2, e, g, Z_k;
     int T_Final=ITERACIONES;
@@ -15,7 +15,7 @@ int soc_generator(int dim){
     float s=2.0*D+1.0;
     sigma1=-0.2;
     sigma2=0.8;
-    Z_c=1.0;
+    Z_c=0.2;
     float e0=(2.0*D/s)*Z_c*Z_c;
 
 
@@ -30,11 +30,11 @@ int soc_generator(int dim){
         for(i=0;i<DIM;i++){
             for(j=0;j<DIM;j++){
                 Z_k= *(red+i*DIM+j)-(1.0/(2.0*D))*suma_vecinos(red,DIM,i,j);       
-                if(abs(Z_k)>Z_c){
-                    printf("El resultado del if es %d con Z_k=%f y Z_c=%f\n",abs(Z_k)>Z_c,abs(Z_k),Z_c);
+                if(Z_k>Z_c){
+                    // printf("El resultado del if es %d con Z_k=%f y Z_c=%f\n",abs(Z_k)>Z_c,abs(Z_k),Z_c);
                     *(c+i*DIM+j)-=(2.0*D/s)*Z_c;
                     aumentar_vecinos(c,DIM,i,j,Z_c/s);
-                    g=((2.0*abs(Z_k)/Z_c)-1.0);
+                    g=((2.0*Z_k/Z_c)-1.0);
                     e+=g;
                     // printf("e es %f\n",e);
                 }
@@ -46,7 +46,7 @@ int soc_generator(int dim){
         }else{
             perturbar_nodo_aleatorio(red,DIM,sigma1,sigma2);
         }
-        if(t%10000==0){
+        if(t%1000==0){
             fprintf(fp,"%d,%lf,%lf\n", t,e,energia_total(red,DIM)/e0);
         }
         
