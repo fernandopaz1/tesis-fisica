@@ -26,6 +26,7 @@ int graficar(float *red, int dim){
     gp << "set autoscale cbfix\n";
     gp << "splot '-'\n";
     gp.send2d(frame);
+    gp << "pause 3; refresh; reread;";
     gp.flush();
     return 0;
 }   

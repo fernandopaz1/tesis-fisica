@@ -4,7 +4,10 @@
 
 #include "constantes.h"
 
+
 int soc_generator();
+int graficar_matriz(float *red, int dim);
+
 
 int soc_generator(){
     int i,j, t;
@@ -24,6 +27,9 @@ int soc_generator(){
     
     limpiar_red(red,DIM);
     limpiar_red(c,DIM);
+
+    graficar_matriz(red,DIM);
+
 
     for(t=0;t<T_Final;t++){
         e=0.0;
@@ -51,7 +57,6 @@ int soc_generator(){
         }
         
     }
-    graficar(red,DIM);
     free(red);
     free(c);
     free(fp);
@@ -59,3 +64,29 @@ int soc_generator(){
 }
 
 
+
+
+
+
+int graficar_matriz(float *red, int dim){
+    float frame[DIM][DIM];
+    for (int n=0; n<dim; n++){
+        for (int m=0; m<dim; m++){
+            frame[n][m]=*(red +dim*n+m);
+        }
+    }
+
+    Gnuplot gp;
+    gp << "unset key\n";
+    gp << "set pm3d\n";
+    gp << "set hidden3d\n";
+    gp << "set view map\n";
+    gp << "set autoscale xfix\n";
+    gp << "set autoscale yfix\n";
+    gp << "set autoscale cbfix\n";
+    gp << "splot '-'\n";
+    gp.send2d(frame);
+    // gp << "pause 3; refresh; reread;";
+    gp.flush();
+    return 0;
+}   
