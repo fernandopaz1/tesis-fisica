@@ -1,28 +1,29 @@
-from typing import NewType
 import numpy as np
 import matplotlib.pyplot as plt
-import time
-from numpy.core.shape_base import block
-import seaborn as sns
+import pandas as pd
 import random as rnd
 
 plt.ion()
 
 plt.figure()
 
-# n = int(input("Ingrese el tamaño de la red:   "))
 n=20
 n_cuad=n*n
 
 B = np.zeros((n, n))
 C = np.zeros((n, n))
 
+fig = plt.figure()
+ax = fig.add_subplot(111)
+im = ax.imshow(B)
+plt.show(block=False)
 
-def plot_matrix(B):
-    plt.imshow(B)
-    plt.draw()
-    plt.pause(1)
-    plt.clf()
+
+# def plot_matrix(B):
+#     plt.imshow(B)
+#     plt.draw()
+#     plt.pause(1)
+#     plt.clf()
 
 
 def energia_total(B):
@@ -85,7 +86,9 @@ def soc(B,C):
             actualizar_red(B,C)
         else:
             perturbar_nodo_aleatorio(B, sigma1,sigma2)
-        plot_matrix(B)
+        # print("HOLA")
+        # plot_matrix(B)
+        pd.DataFrame(B).to_csv("matriz.csv",header=None, index=None)
 
 soc(B,C)
 
