@@ -54,7 +54,7 @@ int soc_generator(){
     graficar(red,DIM);
     free(red);
     free(c);
-    free(fp);
+    fclose(fp);
     return 0;
 }
 
