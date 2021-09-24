@@ -24,31 +24,32 @@ int soc_generator(){
     
     limpiar_red(red,DIM);
     limpiar_red(c,DIM);
-
+    float el=0.0;
     for(t=0;t<T_Final;t++){
         e=0.0;
         for(i=0;i<DIM;i++){
             for(j=0;j<DIM;j++){
                 Z_k= *(red+i*DIM+j)-(1.0/(2.0*D))*suma_vecinos(red,DIM,i,j);       
-                if(Z_k>Z_c){
+                if(fabs(Z_k)>Z_c){
                     // printf("El resultado del if es %d con Z_k=%f y Z_c=%f\n",abs(Z_k)>Z_c,abs(Z_k),Z_c);
                     *(c+i*DIM+j)-=(2.0*D/s)*Z_c;
                     aumentar_vecinos(c,DIM,i,j,Z_c/s);
-                    g=((2.0*Z_k/Z_c)-1.0);
+                    g=((2.0*fabs(Z_k)/Z_c)-1.0);
                     e+=g;
                     // printf("e es %f\n",e);
                 }
             }
         }
+        el+=e;
         if(e>0.0){
             // printf("--------------------Energia %f\n",e);
             actualizar_red(red,c,DIM);
         }else{
             perturbar_nodo_aleatorio(red,DIM,sigma1,sigma2);
         }
-        if(t%1000==0){
-            fprintf(fp,"%d,%lf,%lf\n", t,e,energia_total(red,DIM)/e0);
-        }
+        // if(t%1000==0){
+            fprintf(fp,"%d,%lf,%lf\n", t,er,el/e0);
+        // }
         
     }
     graficar(red,DIM);
