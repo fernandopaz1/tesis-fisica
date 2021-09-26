@@ -1,4 +1,5 @@
 #!/bin/bash
+rm main.e
 reset
 
 dim=$1
@@ -22,4 +23,4 @@ file=main
 g++ -o $file.e $file.cpp -Ofast -lboost_iostreams -lboost_system -lboost_filesystem
 ./$file.e
 rm $file.e
-python graficoEnergias.py
+python graficoEnergias.py $1
