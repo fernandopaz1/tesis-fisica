@@ -16,7 +16,7 @@ float campo_medio(float *red, int dim);
 int perturbar_nodo_aleatorio(float *red, int dim,float sigma1, float sigma2){
     int i= entero_aleatorio(0, dim);
     int j= entero_aleatorio(0, dim);
-    *(red+i*dim+j)=campo_aleatoro(sigma1,sigma2);
+    *(red+i*dim+j)+=campo_aleatoro(sigma1,sigma2);
     return 0;
 }
 
@@ -42,6 +42,11 @@ float energia_total(float *red, int dim){
         }
     }
 
+
+    // if(B_tot!=0.0){
+    //     printf("%f\n",B_tot/(1.0*(dim*dim)));
+    // }
+
     return B_tot/(1.0*(dim*dim));
 }
 
@@ -54,7 +59,6 @@ float campo_medio(float *red, int dim){
             B_tot+=*(red+i*dim+j);
         }
     }
-
     return B_tot/(1.0*(dim*dim));
 }
 
