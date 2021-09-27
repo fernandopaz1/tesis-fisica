@@ -11,7 +11,6 @@ int main(int argc,char *argv[]){
 	start = clock();
 
     srand(time(NULL));
-    // srand(31); 
     soc_generator();
 
     end = clock();

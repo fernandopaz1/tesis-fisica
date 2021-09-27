@@ -4,11 +4,11 @@
 #include "gnuplot-iostream.h"
 
 
-int graficar(float *red, int dim);
-int imprimir(float *red, int dim);
-int greaficar_vector(float *vector, int longitud);
+void graficar(float *red, int dim);
+void imprimir(float *red, int dim);
+void greaficar_vector(float *vector, int longitud);
 
-int graficar(float *red, int dim){
+void graficar(float *red, int dim){
     float frame[DIM][DIM];
     for (int n=0; n<dim; n++){
         for (int m=0; m<dim; m++){
@@ -27,11 +27,10 @@ int graficar(float *red, int dim){
     gp << "splot '-'\n";
     gp.send2d(frame);
     gp.flush();
-    return 0;
 }   
 
 
-int greaficar_vector(float *vector, int longitud){
+void greaficar_vector(float *vector, int longitud){
     float frame[ITERACIONES];
     for (int n=0; n<longitud; n++){
             frame[n]=*(vector +n);
@@ -44,10 +43,9 @@ int greaficar_vector(float *vector, int longitud){
     gpV << "plot '-'\n";
     gpV.send1d(frame);
     gpV.flush();
-    return 0;
 }
 
-int imprimir(float *red, int dim){
+void imprimir(float *red, int dim){
 	int i,j;
 	for(i=0;i<dim;i++){
 		for(j=0;j<dim;j++){
@@ -57,5 +55,4 @@ int imprimir(float *red, int dim){
 	printf("\n");
 	}
     printf("\n\n");
-return 0;
 }
