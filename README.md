@@ -29,9 +29,9 @@ cambiar los permisos del archivo compycorrer.sh con
 
 `chmod 744 compycorrer.sh`
 
-y ejecutar el archivo compycorrer.sh con los parametros correspondientes al tamaño de la red y la cantidad de iteraciones, por ejemplo
+y ejecutar el archivo compycorrer.sh con los parametros correspondientes al tamaño de la red, la cantidad de iteraciones y el valor de umbral, por ejemplo
 
-`./compycorrer.sh 64 100000`
+`./compycorrer.sh 64 100000 "0.2"`
 
 ## Dependencias de Python
 
