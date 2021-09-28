@@ -10,8 +10,9 @@ bool es_nodo_borde(int dim, int i, int j);
 void limpiar_red(float *red, int dim);
 void aumentar_vecinos(float *red, int dim, int i, int j, float cantindad);
 float campo_medio(float *red, int dim);
-
-
+void agregar_cluster(float *red, int dim, int i, int j);
+float calcular_centro_de_masa(int *red, float *centro_masa,int dim);
+float calcular_radio(int *red, float *centro_masa,int dim, int *i, int *j);
 
 void perturbar_nodo_aleatorio(float *red, int dim,float sigma1, float sigma2){
     int i= entero_aleatorio(0, dim);
@@ -99,4 +100,48 @@ void actualizar_red(float *red_dest, float *red_orig, int dim){
             *(red_orig+i*dim+j)=0.0;
         }
     }
+}
+
+void agregar_cluster(int  *red, int dim, int i, int j){
+    *(red+i*dim+j)=1.0;
+}
+
+
+void limpiar_red(int *red, int dim){
+    int i,j;
+    for(i=0;i<dim;i++){
+        for(j=0;j<dim;j++){
+            *(red+i*dim+j)=0;
+        }
+    }
+}
+
+float calcular_centro_de_masa(int *red, float *centro_masa,int dim){
+    int x=0, y=0, M=0;
+    for(int i=0;i<dim;i++){
+        for(int j=0;j<dim;j++){
+            if(*(red+i*dim+j)){
+                x+=i;
+                y+=j;
+                M++;
+            }
+        }
+    }
+    *centro_masa=x/(1.0*M);
+    *(centro_masa+1)=y/(1.0*M);
+    return 1.0*M;
+}
+
+float calcular_radio(int *red, float *centro_masa,int dim){
+    float R=0.0;
+    int M =0;
+    for(int i=0;i<dim;i++){
+        for(int j=0;j<dim;j++){
+            if(*(red+i*dim+j)){
+                R+=fabs((i-*centro_masa)*(i-*centro_masa)+(j-*(centro_masa+1))*(j-*(centro_masa+1)));
+                M++;
+            }
+        }
+    }
+    return R/(1.0*M);
 }
