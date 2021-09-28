@@ -25,4 +25,5 @@ file=main
 g++ -o $file.e $file.cpp -Ofast -lboost_iostreams -lboost_system -lboost_filesystem
 ./$file.e
 rm $file.e
-# python graficoEnergias.py $1
+python graficoEnergias.py $1
+python graficoAvalanchas.py
