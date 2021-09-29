@@ -5,13 +5,19 @@ import pandas as pd
 import sys
 
 
-bin=10000
+bin=1000
 bin_e=100
 histType="stepfilled" #bar step stepfilled
 avalanchas = pd.read_csv("caracterizacion.csv") 
 avalanchas = avalanchas[:-1]
+avalanchas =avalanchas[avalanchas !=0]
 
 def fitLogaritmico(x,y):
+    if isinstance(x,(list,np.ndarray)):
+        cuttof=np.argwhere(y==0)
+        if(cuttof.size!=0):
+            x=x[0:cuttof[0][0]]
+            y=y[0:cuttof[0][0]]
     logx = np.log(x)
     logy = np.log(y)
     coeffs = np.polyfit(logx,logy,deg=1)
@@ -38,10 +44,17 @@ plt.figure(2)
 plt.xlabel('T')
 plt.ylabel(r'${P}/{\epsilon_{0}}$')
 plt.scatter(avalanchas["T"],avalanchas["P"],label=r'${P}/{\epsilon_{0}}$ vs T',marker='o',s=0.1)
+fit, coeffs=fitLogaritmico(avalanchas["T"],avalanchas["P"])
+yfit= lambda x: np.exp(fit(np.log(x)))
+plt.plot(avalanchas["T"],yfit(avalanchas["T"]), color="red", label="Pendiente {pendiente:.2f}".format(pendiente=coeffs[0]))
 plt.xscale('log')
 plt.yscale('log')
 plt.legend(loc='upper right')
 plt.show(block=False)
+
+
+print("\n\n Se Ejecuto \n\n")
+
 
 
 plt.figure(3)
@@ -53,9 +66,15 @@ plt.hist(avalanchas["P"],bins=bin,label=r'$f({P}/{\epsilon_{0}})$',alpha=0.5,
 plt.yscale('log')
 plt.xlabel(r'${P}/{\epsilon_{0}}$')
 plt.scatter(bins,counts,label=r'$f({P}/{\epsilon_{0}})$',marker='o',s=10)
+
+fit, coeffs=fitLogaritmico(bins,counts)
+yfit= lambda x: np.exp(fit(np.log(x)))
+plt.plot(bins,yfit(bins), color="red", label="Pendiente {pendiente:.2f}".format(pendiente=coeffs[0]))
+
 plt.ylabel(r'$f({P}/{\epsilon_{0}})$')
 plt.legend(loc='upper right')
 plt.show(block=False)
+
 
 
 plt.figure(4)
@@ -66,6 +85,9 @@ plt.hist(avalanchas["E"],bins=bin_e,label=r'$f({E}/{\epsilon_{0}})$',alpha=0.5,
          log=True,histtype=histType)
 plt.yscale('log')
 plt.xlabel(r'${E}/{\epsilon_{0}}$')
+fit, coeffs=fitLogaritmico(bins,counts)
+yfit= lambda x: np.exp(fit(np.log(x)))
+plt.plot(bins,yfit(bins), color="red", label="Pendiente {pendiente:.2f}".format(pendiente=coeffs[0]))
 plt.scatter(bins,counts,label=r'$f({E}/{\epsilon_{0}})$',marker='o',s=10)
 plt.ylabel(r'$f({E}/{\epsilon_{0}})$')
 plt.legend(loc='upper right')
@@ -78,6 +100,9 @@ plt.xscale('log')
 plt.hist(avalanchas["T"],bins=bin,label=r'$f(T)$',alpha=0.5,log=True,histtype=histType)
 plt.yscale('log')
 plt.xlabel('T')
+fit, coeffs=fitLogaritmico(bins,counts)
+yfit= lambda x: np.exp(fit(np.log(x)))
+plt.plot(bins,yfit(bins), color="red", label="Pendiente {pendiente:.2f}".format(pendiente=coeffs[0]))
 plt.scatter(bins,counts,label=r'$f(T)$',marker='o',s=10)
 plt.ylabel(r'$f(T)$')
 plt.legend(loc='upper right')
