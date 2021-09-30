@@ -62,14 +62,14 @@ void soc_generator(){
             if(T!=0){
                 A=calcular_centro_de_masa(cluster, centro_masa,DIM);
                 R= calcular_radio(cluster, centro_masa, DIM);
-                fprintf(fp3,"%d,%d,%f,%f,%f,%f\n",nroAv,T,E_total_avalancha,P,A,R);
+                fprintf(fp3,"%d,%d,%f,%f,%f,%f\n",nroAv,T,E_total_avalancha/e0,P/e0,A,R);
                 T=0;A=0.0;P=0.0;R=0.0;nroAv++;E_total_avalancha=0.0;
                 limpiar_red(cluster,DIM);
             }
             perturbar_nodo_aleatorio(red,DIM,sigma1,sigma2);
         }
 
-        fprintf(fp,"%d,%lf,%lf\n", t,e,energia_total(red, DIM)/e0);
+        fprintf(fp,"%d,%lf,%lf\n", t,e/e0,energia_total(red, DIM)/e0);
         
         if( t % 20000 == 0){ 
             saveLinea(fp2, red, DIM);
