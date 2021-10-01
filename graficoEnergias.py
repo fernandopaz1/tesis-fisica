@@ -42,5 +42,5 @@ def graficar_energias(data, block=False):
     plt.show(block=block)
 
 if __name__=="__main__":    
-    graficar_energias(pd.read_csv("energias.csv"))
-    graficar_perfil(dim)
+    graficar_energias(pd.read_csv("datos.csv"))
+    graficar_perfil(dim,True)

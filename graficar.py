@@ -20,9 +20,10 @@ avalanchas =avalanchas[avalanchas !=0]
 
 
 gA.plot_loglog_fit(avalanchas,"P","E",10,1000)
-gA.plot_loglog_fit(avalanchas,"T","P",1000,100000)
-gA.plot_histograma_fit(avalanchas,"P",3,300)
-gA.plot_histograma_fit(avalanchas,"E",100,3000)
-gA.plot_histograma_fit(avalanchas,"T",3000,230000, True)
+gA.plot_loglog_fit(avalanchas,"R","A",10,32)
+gA.plot_loglog_fit(avalanchas,"T","P",10,10000)
+gA.plot_histograma_fit(avalanchas,"P",10,100)
+gA.plot_histograma_fit(avalanchas,"E",145,10000)
+gA.plot_histograma_fit(avalanchas,"T",10,200, True)
 
 
