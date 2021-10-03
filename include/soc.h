@@ -2,7 +2,7 @@
 #include "visualizar.h"
 #include "operacion-redes.h"
 #include "saveCSV.h"
-
+#include "unistd.h"
 #include "constantes.h"
 
 void soc_generator();
@@ -12,9 +12,11 @@ void soc_generator(){
     float *red, *centro_masa,*c, sigma1, sigma2, e, g, Z_k, P, A,R,E_total_avalancha;
     int nroAv, T, T_Final=ITERACIONES;
     int T_anterior, T_actual, delta_T;
+
+   
     FILE *fp = fopen("datos.csv", "w+");
     FILE *fp2 = fopen("perfil.csv", "w+");
-    FILE *fp3 = fopen("caracterizacion.csv", "w+");
+    FILE *fp3 = fopen("caracterizacion.csv", "w+"); 
     fprintf(fp,"Iteraciones,Energia_liberada,Energia_total\n");
     fprintf(fp3,"nro,T,E,P,A,R\n");
     headerNumerico(fp2, DIM);
@@ -86,6 +88,8 @@ void soc_generator(){
         }
         e_anterior=e;
     }
+
+    guardar_red(red, DIM);    
     // graficar(red,DIM);
 
     free(red);
