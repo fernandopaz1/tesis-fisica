@@ -7,11 +7,10 @@ import sys
 dim=int(sys.argv[1])
 iteraciones=int(sys.argv[2])
 
-if(iteraciones<10000000):
-    data = pd.read_csv("datos.csv") 
-    data = data[:-1]
-    gE.graficar_energias(data)
-    gE.graficar_perfil(dim)
+data = pd.read_csv("datos.csv") 
+data = data[:-1]
+gE.graficar_energias(data)
+gE.graficar_perfil(dim)
 
 avalanchas = pd.read_csv("caracterizacion.csv") 
 avalanchas = avalanchas[:-1]
