@@ -4,7 +4,6 @@ import pandas as pd
 import sys
 
 
-dim=int(sys.argv[1])
 
 # plt.ion()
 
@@ -42,5 +41,6 @@ def graficar_energias(data, block=False):
     plt.show(block=block)
 
 if __name__=="__main__":    
+    dim=int(sys.argv[1])
     graficar_energias(pd.read_csv("datos.csv"))
     graficar_perfil(dim,True)
