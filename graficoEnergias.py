@@ -4,7 +4,6 @@ import pandas as pd
 import sys
 
 
-
 # plt.ion()
 
 def graficar_perfil(dim, block=False):

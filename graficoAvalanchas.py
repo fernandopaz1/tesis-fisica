@@ -1,5 +1,6 @@
 import numpy as np
-import pylab as pl
+import powerlaw as pl
+
 import matplotlib.pyplot as plt
 from numpy.core.shape_base import block
 import pandas as pd
@@ -61,11 +62,23 @@ def fit_histograma(bins,counts, min,max):
 def plot_histograma_fit(A,campo, min,max, block=False):
     plt.figure()
     P=A[campo]
-    counts,bin_edges=np.histogram(P,bins=bin,density=True)
+    if(campo=="T"):
+        bins=50
+    else:
+        bins=500
+    logbins= np.logspace(np.log10(P.min()), np.log10(P.max()), bins)
+    counts,bin_edges=np.histogram(P,bins=logbins,density=True)
     bins = (bin_edges[:-1] + bin_edges[1:])/2
     fit_histograma(bins,counts,min,max)
-    plt.hist(P,bins=bin,label=r'$f({}/\epsilon_0)$'.format(campo),alpha=0.5,histtype=histType,density=True)
-    plt.scatter(bins,counts,label=r'$f({}/\epsilon_0)$'.format(campo),color="cyan",marker='o',s=10)
+    plt.hist(P,bins=logbins,label=r'$f({}/\epsilon_0)$'.format(campo),alpha=0.5,histtype=histType,density=True)
+    
+    fit = pl.Fit(P, xmin=min, xmax=max, fit_method="KS")
+    alpha=fit.power_law.alpha
+    sigma=fit.power_law.sigma
+    fit.power_law.plot_pdf(color = "b", label = r'Powerlaw $\alpha={pendiente:.2f}\pm{error:.2f}$'.format(pendiente=alpha,error=sigma))
+    pl.plot_pdf(P,color = "b", label = r'Dist con bins de powerlaw')
+
+    
     plt.xscale('log')
     plt.yscale('log')
     plt.xlabel(r'${campo}/\epsilon_0$'.format(campo=campo))

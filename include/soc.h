@@ -13,7 +13,6 @@ void soc_generator(){
     int nroAv, T, T_Final=ITERACIONES;
     int T_anterior, T_actual, delta_T;
 
-   
     FILE *fp = fopen("datos.csv", "w+");
     FILE *fp2 = fopen("perfil.csv", "w+");
     FILE *fp3 = fopen("caracterizacion.csv", "w+"); 
@@ -62,28 +61,28 @@ void soc_generator(){
                     aumentar_vecinos(c,DIM,i,j,Z_c/s);
                     g=(2*D/s)*((2.0*Z_k/Z_c)-1.0)*Z_c*Z_c;
                     e+=g;
-                    // agregar_cluster(cluster, DIM, i,j);
+                    agregar_cluster(cluster, DIM, i,j);
                 }
             }
         }
         if(e>0.0){
             actualizar_red(red,c,DIM);
-            // T_actual=t;
-            // T++;
-            // E_total_avalancha+=e;
-            // P= (e>P) ? e : P;
+            T_actual=t;
+            T++;
+            E_total_avalancha+=e;
+            P= (e>P) ? e : P;
         }else{
-            // if(T!=0 && e_anterior!=0.0){
-            //     A=calcular_centro_de_masa(cluster, centro_masa,DIM);
-            //     R= calcular_radio(cluster, centro_masa, DIM);
-            //     fprintf(fp3,"%d,%d,%f,%f,%f,%f\n",nroAv,T,E_total_avalancha/e0,P/e0,A,R);
-            //     T=0;A=0.0;P=0.0;R=0.0;nroAv++;E_total_avalancha=0.0;
-            //     limpiar_red(cluster,DIM);
-            // }
+            if(T!=0 && e_anterior!=0.0){
+                A=calcular_centro_de_masa(cluster, centro_masa,DIM);
+                R= calcular_radio(cluster, centro_masa, DIM);
+                fprintf(fp3,"%d,%d,%f,%f,%f,%f\n",nroAv,T,E_total_avalancha/e0,P/e0,A,R);
+                T=0;A=0.0;P=0.0;R=0.0;nroAv++;E_total_avalancha=0.0;
+                limpiar_red(cluster,DIM);
+            }
             perturbar_nodo_aleatorio(red,DIM,sigma1,sigma2);
         }
 
-        // fprintf(fp,"%d,%lf,%lf\n", t,e/e0,energia_total(red, DIM)/e0);
+        fprintf(fp,"%d,%lf,%lf\n", t,e/e0,energia_total(red, DIM)/e0);
         
         if( t % 20000 == 0){ 
             saveLinea(fp2, red, DIM);
