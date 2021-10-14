@@ -16,13 +16,25 @@ if (("$2" < "100")); then
    exit 1
 fi
 
+Z_sin_punto=$(echo $Z | sed 's/\.//g')
 
 echo "#define DIM $dim" > ./include/parametros.h
 echo "#define ITERACIONES $iteraciones" >> ./include/parametros.h
 echo "#define Z_c $Z" >> ./include/parametros.h
+
+name_avalanchas_csv="avalanchas${dim}_Zc${Z_sin_punto}.csv"
+
 file=main
 
 g++ -o $file.e $file.cpp -Ofast -lboost_iostreams -lboost_system -lboost_filesystem
 ./$file.e
+
+
 rm $file.e
-python graficar.py $1 $2
+
+FILE=caracterizacion.csv
+if test -f "$FILE"; then
+    echo "$FILE exists."
+    mv ./caracterizacion.csv ./data/$name_avalanchas_csv
+    python graficar.py $1 $2 $3
+fi

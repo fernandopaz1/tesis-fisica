@@ -35,19 +35,21 @@ def plot_fit(A,campo1,campo2,min,max):
     fit, coeffs=fitLogaritmico(subset[campo1],subset[campo2])
     yfit= lambda x: np.exp(fit(np.log(x)))
     plt.plot(subset[campo1],yfit(subset[campo1]), color="red", label="Pendiente {pendiente:.2f}".format(pendiente=coeffs[0]))
+    return coeffs[0]
 
 def plot_loglog_fit(A,campo1,campo2,min,max, block=False):
     plt.figure()
     # plt.title("Avalanchas")
     plt.xlabel(r'${}/\epsilon_0$'.format(campo1))
     plt.ylabel(r'${}/\epsilon_0$'.format(campo2))
-    plot_fit(A,campo1,campo2,min,max)
+    pendiente=plot_fit(A,campo1,campo2,min,max)
     plt.scatter(A[campo1],A[campo2],label=r'${E}/\epsilon_0$ vs ${P}/\epsilon_0$'.format(E=campo1,P=campo2),marker='o', s=0.1)
     plt.xscale('log')
     plt.yscale('log')
     plt.legend(loc='upper right')
     # plt.savefig("avalanchas.png")
     plt.show(block=block)
+    return pendiente
 
 
 def fit_histograma(bins,counts, min,max):
@@ -56,7 +58,8 @@ def fit_histograma(bins,counts, min,max):
     subset=filtrar_dataframe(df_bins,0,1,min,max)
     fit, coeffs=fitLogaritmico(subset[0],subset[1])
     yfit= lambda x: np.exp(fit(np.log(x)))
-    plt.plot(subset[0],yfit(subset[0]), color="red", label="Pendiente {pendiente:.2f}".format(pendiente=coeffs[0]))    
+    plt.plot(subset[0],yfit(subset[0]), color="red", label="Pendiente {pendiente:.2f}".format(pendiente=coeffs[0]))
+    return coeffs[0]
 
 
 def plot_histograma_fit(A,campo, min,max, block=False):
@@ -69,7 +72,7 @@ def plot_histograma_fit(A,campo, min,max, block=False):
     logbins= np.logspace(np.log10(P.min()), np.log10(P.max()), bins)
     counts,bin_edges=np.histogram(P,bins=logbins,density=True)
     bins = (bin_edges[:-1] + bin_edges[1:])/2
-    fit_histograma(bins,counts,min,max)
+    pendiente=fit_histograma(bins,counts,min,max)
     plt.hist(P,bins=logbins,label=r'$f({}/\epsilon_0)$'.format(campo),alpha=0.5,histtype=histType,density=True)
     
     fit = pl.Fit(P, xmin=min, xmax=max, fit_method="KS")
@@ -77,7 +80,6 @@ def plot_histograma_fit(A,campo, min,max, block=False):
     sigma=fit.power_law.sigma
     fit.power_law.plot_pdf(color = "b", label = r'Powerlaw $\alpha={pendiente:.2f}\pm{error:.2f}$'.format(pendiente=alpha,error=sigma))
     pl.plot_pdf(P,color = "b", label = r'Dist con bins de powerlaw')
-
     
     plt.xscale('log')
     plt.yscale('log')
@@ -85,6 +87,7 @@ def plot_histograma_fit(A,campo, min,max, block=False):
     plt.ylabel(r'$f({campo}/\epsilon_0)$'.format(campo=campo))
     plt.legend(loc='upper right')
     plt.show(block=block) 
+    return pendiente
 
 if __name__ == "__main__":
     avalanchas = pd.read_csv("caracterizacion.csv") 

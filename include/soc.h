@@ -13,6 +13,7 @@ void soc_generator(){
     int nroAv, T, T_Final=ITERACIONES;
     int T_anterior, T_actual, delta_T;
 
+
     FILE *fp = fopen("datos.csv", "w+");
     FILE *fp2 = fopen("perfil.csv", "w+");
     FILE *fp3 = fopen("caracterizacion.csv", "w+"); 
