@@ -35,11 +35,11 @@ void soc_generator(){
     limpiar_red(c,DIM);
     limpiar_red(cluster,DIM);
 
-    if(cargar_red(red, DIM)){
-        printf("%s\n","Se cargó red");
-    }else{
-        printf("%s\n","No  se pudo cargar red");
-    }
+    // if(cargar_red(red, DIM)){
+    //     printf("%s\n","Se cargó red");
+    // }else{
+    //     printf("%s\n","No  se pudo cargar red");
+    // }
 
     T=0;
     nroAv=0;
@@ -56,10 +56,10 @@ void soc_generator(){
         e=0.0;
         for(i=0;i<DIM;i++){
             for(j=0;j<DIM;j++){
-                Z_k= *(red+i*DIM+j)-(1.0/(2.0*D))*suma_vecinos(red,DIM,i,j);       
+                Z_k= *(red+i*DIM+j)-(1.0/(2.0*D))*suma_vecinos_ccp(red,DIM,i,j);       
                 if(Z_k>Z_c){
                     *(c+i*DIM+j)-=(2.0*D/s)*Z_c;
-                    aumentar_vecinos(c,DIM,i,j,Z_c/s);
+                    aumentar_vecinos_ccp(c,DIM,i,j,Z_c/s);
                     g=(2*D/s)*((2.0*Z_k/Z_c)-1.0)*Z_c*Z_c;
                     e+=g;
                     agregar_cluster(cluster, DIM, i,j);
@@ -92,7 +92,7 @@ void soc_generator(){
     }
 
     guardar_red(red, DIM);    
-    // graficar(red,DIM);
+    graficar(red,DIM);
 
     free(red);
     red=NULL;

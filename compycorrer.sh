@@ -36,5 +36,6 @@ FILE=caracterizacion.csv
 if test -f "$FILE"; then
     echo "$FILE exists."
     mv ./caracterizacion.csv ./data/$name_avalanchas_csv
-    python graficar.py $1 $2 $3
+    # python graficar.py $1 $2 $3
+    python graficoEnergias.py $1
 fi

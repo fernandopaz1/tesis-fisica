@@ -13,6 +13,8 @@ float campo_medio(float *red, int dim);
 void agregar_cluster(float *red, int dim, int i, int j);
 float calcular_centro_de_masa(int *red, float *centro_masa,int dim);
 float calcular_radio(int *red, float *centro_masa,int dim, int *i, int *j);
+void aumentar_vecinos_ccp(float *red, int dim, int i, int j, float cantindad);
+float suma_vecinos_ccp(float *red, int dim, int i, int j);
 
 void perturbar_nodo_aleatorio(float *red, int dim,float sigma1, float sigma2){
     int i= entero_aleatorio(0, dim);
@@ -73,6 +75,24 @@ float suma_vecinos(float *red, int dim, int i, int j){
     return suma;
 }
 
+float suma_vecinos_ccp(float *red, int dim, int i, int j){
+    float suma=suma_vecinos(red,dim,i,j);
+    if(i == 0){
+        suma+=*(red+dim*(dim-1)+j);
+    }
+    if(i == dim-1){
+        suma+=*(red+j);
+    }
+    if(j == 0){
+        suma+=*(red+dim*i+(dim-1));
+    }
+    if(j == dim-1){
+        suma+=*(red+dim*i);
+    }
+    return suma;
+}
+
+
 void aumentar_vecinos(float *red, int dim, int i, int j, float cantindad){
     if(i != 0){
         *(red+(i-1)*dim+j)+=cantindad;
@@ -85,6 +105,22 @@ void aumentar_vecinos(float *red, int dim, int i, int j, float cantindad){
     }
     if(j != (dim-1)){
         *(red+i*dim+j+1)+=cantindad;
+    }
+}
+
+void aumentar_vecinos_ccp(float *red, int dim, int i, int j, float cantindad){
+    aumentar_vecinos(red,dim,i,j,cantindad);
+    if(i==0){
+        *(red+(dim-1)*dim+j)+=cantindad;
+    }
+    if(i==dim-1){
+        *(red+j)+=cantindad;
+    }
+    if(j==0){
+        *(red+i*dim+dim-1)+=cantindad;
+    }
+    if(j==dim-1){
+        *(red+i*dim+0)+=cantindad;
     }
 }
 

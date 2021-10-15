@@ -7,6 +7,7 @@ import sys
 # plt.ion()
 
 def graficar_perfil(dim, block=False):
+    
     try:
         perfil = pd.read_csv("perfil.csv",error_bad_lines=False)
         perfil = perfil[:-1]
@@ -20,7 +21,7 @@ def graficar_perfil(dim, block=False):
             plt.ylabel(r"$B(x_{},y_k)$".format(int(dim/2)))
             plt.xticks(np.arange(0, dim+1, int(dim/10)))
             plt.legend(loc='upper right')
-            plt.show(block=block)
+        plt.show(block=block)
     except:
         print("No se pudo levantar el perfil")
 

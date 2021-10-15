@@ -35,16 +35,18 @@ Z_c_original=sys.argv[3]
 Z_c=Z_c_original.replace(".","")
 
 
+
+data = pd.read_csv("datos.csv") 
+data = data[:-1]
+gE.graficar_energias(data)
+gE.graficar_perfil(dim)
+
+
+
+
 avalanchas = pd.read_csv("data/avalanchas{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
 avalanchas = avalanchas[:-1]
 avalanchas =avalanchas[avalanchas !=0]
-
-
-
-# data = pd.read_csv("datos.csv") 
-# data = data[:-1]
-# gE.graficar_energias(data)
-# gE.graficar_perfil(dim)
 
 
 
