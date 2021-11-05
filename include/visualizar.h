@@ -1,49 +1,5 @@
-#include <vector>
-#include <cmath>
-#include <boost/tuple/tuple.hpp>
-#include "gnuplot-iostream.h"
-
-
-void graficar(float *red, int dim);
 void imprimir(float *red, int dim);
-void greaficar_vector(float *vector, int longitud);
 
-void graficar(float *red, int dim){
-    float frame[DIM][DIM];
-    for (int n=0; n<dim; n++){
-        for (int m=0; m<dim; m++){
-            frame[n][m]=*(red +dim*n+m);
-        }
-    }
-
-    Gnuplot gp;
-    gp << "unset key\n";
-    gp << "set pm3d\n";
-    gp << "set hidden3d\n";
-    gp << "set view map\n";
-    gp << "set autoscale xfix\n";
-    gp << "set autoscale yfix\n";
-    gp << "set autoscale cbfix\n";
-    gp << "splot '-'\n";
-    gp.send2d(frame);
-    gp.flush();
-}   
-
-
-void greaficar_vector(float *vector, int longitud){
-    float frame[ITERACIONES];
-    for (int n=0; n<longitud; n++){
-            frame[n]=*(vector +n);
-    }
-
-    Gnuplot gpV;
-    gpV << "unset key\n";
-    gpV << "set autoscale yfix\n";
-    // gpV << "set xrange [ -1 : %s ] \n",ITERACIONES;
-    gpV << "plot '-'\n";
-    gpV.send1d(frame);
-    gpV.flush();
-}
 
 void imprimir(float *red, int dim){
 	int i,j;

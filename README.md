@@ -13,10 +13,6 @@ Para correr este proyecto es necesario instalar instalar librerias con los sigui
 
 `sudo apt-get install g++`
 
-`sudo apt-get install gnuplot`
-
-`sudo apt-get install libgnuplot-iostream-dev`
-
 Descargar este repositorio via
 
 `git clone https://github.com/fernandopaz1/tesis-fisica.git`
@@ -51,16 +47,3 @@ o hacerlo dentro de un entorno virtual mediante los comandos
 
 `pip install -r requeriments.txt`
 
-## Ejecutar tests unitarios
-
-Si se desea testear la aplicacion se debe correr el siguiente comando en la carpeta `tesis-fisica`
-
-`mkdir ext && cd ext && git clone https://github.com/google/googletest.git`
-
-Nuevamente en la carpeta `tesis-fisica` es necesario dar permisos de ejecucion al archivo `testear.sh` con el comando:
-
-`chmod 744 testear.sh`
-
-y correr los tests con el comando
-
-`./testear.sh`

@@ -26,12 +26,12 @@ def graficar_perfil(dim, block=False):
         print("No se pudo levantar el perfil")
 
 def graficar_energias(data, block=False):
-    plt.figure(1)
-    plt.plot(data["Iteraciones"],data["Energia_liberada"],  label="Energia liberada", linewidth=0.05,)
-    plt.xlabel("Iteraciones")
-    plt.ylabel(r"$E_r/\epsilon_0$")
-    plt.legend()
-    plt.show(block=block)
+    # plt.figure(1)
+    # plt.plot(data["Iteraciones"],data["Energia_liberada"],  label="Energia liberada", linewidth=0.05,)
+    # plt.xlabel("Iteraciones")
+    # plt.ylabel(r"$E_r/\epsilon_0$")
+    # plt.legend()
+    # plt.show(block=block)
 
     plt.figure(2)
     plt.plot(data["Iteraciones"],data["Energia_total"], label="Energia total")
