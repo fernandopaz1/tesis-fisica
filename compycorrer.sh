@@ -27,7 +27,7 @@ name_avalanchas_csv="avalanchas${dim}_Zc${Z_sin_punto}.csv"
 file=main
 
 g++ -o $file.e $file.cpp -Ofast -lboost_iostreams -lboost_system -lboost_filesystem
-./$file.e
+time ./$file.e
 
 
 rm $file.e
@@ -37,5 +37,5 @@ if test -f "$FILE"; then
     echo "$FILE exists."
     mv ./caracterizacion.csv ./data/$name_avalanchas_csv
     python graficar.py $1 $2 $3
-    # python graficoEnergias.py $1
+    python graficoEnergias.py $1
 fi

@@ -43,11 +43,19 @@ gE.graficar_perfil(dim, True)
 
 
 
-exit()
+# exit()
+
+
 avalanchas = pd.read_csv("data/avalanchas{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
 avalanchas = avalanchas[:-1]
 avalanchas =avalanchas[avalanchas !=0]
 
+
+#################
+# Las funciones plot hacen el grafico en escala
+# logaritmica, y devuelven las pendientes calculadas con el ajuste lineal
+# Los parametros numericos son el minimo y maximo a considerar para hacer el ajuste
+#################
 
 
 pendiente_P_vs_E=gA.plot_loglog_fit(avalanchas,"P","E",10,1000)
@@ -64,6 +72,11 @@ pendiente_T=gA.plot_histograma_fit(avalanchas,"T",10,900, True)
 print("Pendiente E",pendiente_E)
 print("Pendiente P",pendiente_P)
 print("Pendiente P",pendiente_T)
+
+#################
+#  Pregunta si queremos guardar todas las pendientes de los graficos
+#  en un csv
+#################
 
 respuesta = input("¿Desea guardar los datos? (y/n)")
 nombre_csv="./data/pendientes_avalanchas.csv"
