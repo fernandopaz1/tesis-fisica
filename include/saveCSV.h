@@ -6,6 +6,7 @@ void saveLinea(FILE *f, float *red, int dim);
 void guardar_red(float *red, int dim);
 int existe_archivo(char *nombre);
 bool cargar_red(float *red,int dim);
+void save_energies(float *e_r,float *e_tot);
 
 void headerNumerico(FILE *f, int n) {
     for(int k=0;k<n;k++){
@@ -78,3 +79,14 @@ bool cargar_red(float *red,int dim){
 }
 
 
+void save_energies(float *e_r,float *e_tot, int T_Final){
+    FILE *fp = fopen("datos.csv", "w+");
+    fprintf(fp,"Iteraciones,Energia_liberada,Energia_total\n");
+    for(int t=0; t<T_Final; t++){
+        fprintf(fp,"%d,%lf,%lf", t,*(e_r+t),*(e_tot+t));
+        if(t!=T_Final-1){
+            fprintf(fp,"\n");
+        }
+    }
+    fflush(fp);
+}
