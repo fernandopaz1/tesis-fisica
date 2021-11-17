@@ -9,15 +9,15 @@ void soc_generator();
 
 void soc_generator(){
     int i,j,k, t, *cluster,m=DIM/2;
-    float *red, *centro_masa,*c, sigma1, sigma2, e, g, Z_k, P, A,R,E_total_avalancha;
+    float *red, *centro_masa,*c,*e_r, *e_tot, sigma1, sigma2, e, g, Z_k, P, A,R,E_total_avalancha;
     int nroAv, T, T_Final=ITERACIONES;
     int T_anterior, T_actual, delta_T;
 
 
-    FILE *fp = fopen("datos.csv", "w+");
+    // FILE *fp = fopen("datos.csv", "w+");
     FILE *fp2 = fopen("perfil.csv", "w+");
     FILE *fp3 = fopen("caracterizacion.csv", "w+"); 
-    fprintf(fp,"Iteraciones,Energia_liberada,Energia_total\n");
+    // fprintf(fp,"Iteraciones,Energia_liberada,Energia_total\n");
     fprintf(fp3,"nro,T,E,P,A,R\n");
     headerNumerico(fp2, DIM);
 
@@ -31,6 +31,10 @@ void soc_generator(){
     c=(float*)malloc((DIM*DIM)*sizeof(float));
     centro_masa=(float*)malloc(2*sizeof(float));
     cluster=(int*)malloc((DIM*DIM)*sizeof(int));
+    e_r=(float*)malloc(T_Final*sizeof(float));
+    e_tot=(float*)malloc(T_Final*sizeof(float));
+    
+
     limpiar_red(red,DIM);
     limpiar_red(c,DIM);
     limpiar_red(cluster,DIM);
@@ -83,7 +87,9 @@ void soc_generator(){
             perturbar_nodo_aleatorio(red,DIM,sigma1,sigma2);
         }
 
-        fprintf(fp,"%d,%lf,%lf\n", t,e/e0,energia_total(red, DIM)/e0);
+        *(e_r+t)=e/e0;
+        *(e_tot+t)=energia_total(red,DIM)/e0;
+        // fprintf(fp,"%d,%lf,%lf\n", t,e/e0,energia_total(red, DIM)/e0);
         
         if( t % 20000 == 0){ 
             saveLinea(fp2, red, DIM);
@@ -92,14 +98,12 @@ void soc_generator(){
     }
 
     guardar_red(red, DIM);    
-    // graficar(red,DIM);
+    save_energies(e_r,e_tot,T_Final);
 
     free(red);
     red=NULL;
     free(c);
     c=NULL;
-    fflush(fp);
-    fclose(fp);
     fflush(fp2);
     fclose(fp2);
     fflush(fp3);
