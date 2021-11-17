@@ -29,6 +29,10 @@ y ejecutar el archivo compycorrer.sh con los parametros correspondientes al tama
 
 `./compycorrer.sh 64 100000 "0.2"`
 
+El programa para graficar se ejecuta automáticamente luego de terminar la simulación, pero en caso de querer correrlo nuevamente se lanza desde la terminal con el comando
+
+`python graficar.py 64 100000 02`
+
 ## Dependencias de Python
 
 Para graficar el output de la simulacion se deben instalar las librerias en `requeriments.txt` con el comando
@@ -46,4 +50,3 @@ o hacerlo dentro de un entorno virtual mediante los comandos
 `python -m pip install --upgrade pip `
 
 `pip install -r requeriments.txt`
-

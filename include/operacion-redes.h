@@ -138,7 +138,7 @@ void actualizar_red(float *red_dest, float *red_orig, int dim){
     }
 }
 
-void agregar_cluster(int  *red, int dim, int i, int j){
+void agregar_al_cluster(int  *red, int dim, int i, int j){
     *(red+i*dim+j)=1.0;
 }
 

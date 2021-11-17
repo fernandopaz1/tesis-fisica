@@ -31,7 +31,7 @@ def graficar_energias(data, block=False):
     # plt.xlabel("Iteraciones")
     # plt.ylabel(r"$E_r/\epsilon_0$")
     # plt.legend()
-    # plt.show(block=block)
+    # plt.show(block=False)
 
     plt.figure(2)
     plt.plot(data["Iteraciones"],data["Energia_total"], label="Energia total")
@@ -42,5 +42,5 @@ def graficar_energias(data, block=False):
 
 if __name__=="__main__":    
     dim=int(sys.argv[1])
-    graficar_energias(pd.read_csv("datos.csv"))
-    graficar_perfil(dim,True)
+    graficar_perfil(dim)
+    graficar_energias(pd.read_csv("datos.csv"), True)
