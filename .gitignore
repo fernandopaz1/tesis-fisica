@@ -776,5 +776,6 @@ parametros.h
 imagenes/*
 *.png
 *.jpeg
+data/*
 
 # End of https://www.toptal.com/developers/gitignore/api/python,virtualenv

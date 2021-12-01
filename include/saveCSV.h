@@ -51,29 +51,28 @@ void guardar_red(float *red, int dim)
 	char filename[sizeof "data/red_equilibrio100.csv"];
 	sprintf(filename, "data/red_equilibrio%03d.csv", dim);
 
-	if (!existe_archivo(filename))
+	
+	FILE *red_equilibrio = fopen(filename, "w+");
+	for (int i = 0; i < dim; i++)
 	{
-		FILE *red_equilibrio = fopen(filename, "w+");
-		for (int i = 0; i < dim; i++)
+		for (int j = 0; j < dim; j++)
 		{
-			for (int j = 0; j < dim; j++)
+			if (j == dim - 1 && i != dim - 1)
 			{
-				if (j == dim - 1 && i != dim - 1)
-				{
-					fprintf(red_equilibrio, "%f,", *(red + i * dim + j));
-				}
-				else if (j == dim - 1)
-				{
-					fprintf(red_equilibrio, "%f", *(red + i * dim + j));
-				}
-				else
-				{
-					fprintf(red_equilibrio, "%f,", *(red + i * dim + j));
-				}
+				fprintf(red_equilibrio, "%f,", *(red + i * dim + j));
+			}
+			else if (j == dim - 1)
+			{
+				fprintf(red_equilibrio, "%f", *(red + i * dim + j));
+			}
+			else
+			{
+				fprintf(red_equilibrio, "%f,", *(red + i * dim + j));
 			}
 		}
-		fclose(red_equilibrio);
 	}
+	fclose(red_equilibrio);
+
 }
 
 bool cargar_red(float *red, int dim)
@@ -124,6 +123,7 @@ void save_energies(float *e_r, float *e_tot, int T_Final)
 
 void save_avalancha(int *T, float *e_tot, float *P, int T_Final)
 {
+	printf("%d",T_Final);
 	FILE *fp3 = fopen("caracterizacion.csv", "w+");
 	// fprintf(fp3,"nro,T,E,P,A,R\n");
 	fprintf(fp3, "nro,T,E,P\n");

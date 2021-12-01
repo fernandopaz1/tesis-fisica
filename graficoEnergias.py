@@ -9,7 +9,7 @@ import sys
 def graficar_perfil(dim, block=False):
     
     try:
-        perfil = pd.read_csv("perfil.csv",error_bad_lines=False)
+        perfil = pd.read_csv("perfil.csv")
         perfil = perfil[:-1]
         step=int(len(perfil)/10)
         for i in range(0,len(perfil),step):
@@ -41,6 +41,4 @@ def graficar_energias(data, block=False):
     plt.show(block=block)
 
 if __name__=="__main__":    
-    dim=int(sys.argv[1])
-    graficar_perfil(dim)
-    graficar_energias(pd.read_csv("datos.csv"), True)
+    pass

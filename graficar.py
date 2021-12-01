@@ -33,10 +33,12 @@ dim=int(sys.argv[1])
 iteraciones=int(sys.argv[2])
 Z_c_original=sys.argv[3]
 Z_c=Z_c_original.replace(".","")
+number=str("_number"+sys.argv[4]) if int(sys.argv[4])>0 else str()
 
 
 
-data = pd.read_csv("datos.csv") 
+data = pd.read_csv("data/serie{dim}_Zc{Z_c}{n}.csv".format(dim=dim,Z_c=Z_c,n=number))
+
 data = data[:-1]
 gE.graficar_energias(data)
 gE.graficar_perfil(dim, True)
@@ -57,9 +59,7 @@ avalanchas =avalanchas[avalanchas !=0]
 # Los parametros numericos son el minimo y maximo a considerar para hacer el ajuste
 #################
 
-
 pendiente_P_vs_E=gA.plot_loglog_fit(avalanchas,"P","E",10,1000)
-# gA.plot_loglog_fit(avalanchas,"R","A",10,32)
 pendiente_P_vs_T=gA.plot_loglog_fit(avalanchas,"T","P",100,100000)
 
 print("Pendiente P vs E",pendiente_P_vs_E)
@@ -67,7 +67,7 @@ print("Pendiente P vs T",pendiente_P_vs_T)
 
 pendiente_E=gA.plot_histograma_fit(avalanchas,"E",37,100000)
 pendiente_P=gA.plot_histograma_fit(avalanchas,"P",12,300)
-pendiente_T=gA.plot_histograma_fit(avalanchas,"T",10,900, True)
+pendiente_T=gA.plot_histograma_fit(avalanchas,"T",10,900)
 
 print("Pendiente E",pendiente_E)
 print("Pendiente P",pendiente_P)

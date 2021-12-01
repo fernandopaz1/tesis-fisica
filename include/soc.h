@@ -9,8 +9,9 @@ void soc_generator();
 
 void soc_generator()
 {
-	int i, j, k, t, *cluster, m = DIM / 2;
-	float *red, *centro_masa, *c, *e_r, *e_tot, sigma1, sigma2, e, g, Z_k, *P, *E_total_avalancha;
+
+	int i, j, k, t, m = DIM / 2;
+	float *red, *c, *e_r, *e_tot, sigma1, sigma2, e, g, Z_k, *P, *E_total_avalancha;
 	int nroAv, *T, T_Final = ITERACIONES;
 	int T_anterior, T_actual, delta_T;
 
@@ -18,18 +19,15 @@ void soc_generator()
 	sigma1 = -0.2;
 	sigma2 = 0.8;
 	float e0 = (2.0 * D / s) * Z_c * Z_c;
-	int T_max_av = (int)T_Final / 5;
+	int T_max_av = (int)T_Final / 2;
 
 	red = (float *)malloc((DIM * DIM) * sizeof(float));
 	c = (float *)malloc((DIM * DIM) * sizeof(float));
-	centro_masa = (float *)malloc(2 * sizeof(float));
-	cluster = (int *)malloc((DIM * DIM) * sizeof(int));
 	e_r = (float *)malloc(T_Final * sizeof(float));
 	e_tot = (float *)malloc(T_Final * sizeof(float));
 
 	limpiar_red(red, DIM);
 	limpiar_red(c, DIM);
-	limpiar_red(cluster, DIM);
 
 	if (cargar_red(red, DIM))
 	{
@@ -50,7 +48,7 @@ void soc_generator()
 	float e_anterior = 0.0;
 
 	for (t = 0; t < T_Final; t++)
-	{
+	{	
 		e = 0.0;
 		for (i = 0; i < DIM; i++)
 		{
@@ -99,4 +97,9 @@ void soc_generator()
 
 	free(red);
 	free(c);
+	free(e_r);
+	free(e_tot);
+	free(E_total_avalancha);
+	free(P);
+	free(T);
 }

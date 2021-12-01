@@ -18,8 +18,8 @@ def fitLogaritmico(x,y):
         if(cuttof.size!=0):
             x=x[0:cuttof[0][0]]
             y=y[0:cuttof[0][0]]
-    logx = np.log(x)
-    logy = np.log(y)
+    logx = np.log(x).to_numpy()
+    logy = np.log(y).to_numpy()
     coeffs = np.polyfit(logx,logy,deg=1)
     poly = np.poly1d(coeffs)
     return poly, coeffs
