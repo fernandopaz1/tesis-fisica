@@ -13,6 +13,8 @@ Para correr este proyecto es necesario instalar instalar librerias con los sigui
 
 `sudo apt-get install g++`
 
+
+
 Descargar este repositorio via
 
 `git clone https://github.com/fernandopaz1/tesis-fisica.git`
@@ -28,6 +30,25 @@ cambiar los permisos del archivo compycorrer.sh con
 y ejecutar el archivo compycorrer.sh con los parametros correspondientes al tamaño de la red, la cantidad de iteraciones y el valor de umbral, por ejemplo
 
 `./compycorrer.sh 64 100000 "0.2"`
+
+<details>
+<summary>Si hay problemas con libboost</summary>
+<br>
+  <details>
+<summary>En Ubuntu/Debian</summary>
+  <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sudo apt install libboost-all-dev
+  </details>
+<br>
+  <details>
+ <summary>En Fedora</summary>
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  sudo dnf install boost-devel
+  </details>
+</details>
+<br>
+
 
 El programa para graficar se ejecuta automáticamente luego de terminar la simulación, pero en caso de querer correrlo nuevamente se lanza desde la terminal con el comando
 
