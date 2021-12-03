@@ -21,7 +21,7 @@ def graficar_perfil(dim, block=False):
             plt.ylabel(r"$B(x_{},y_k)$".format(int(dim/2)))
             plt.xticks(np.arange(0, dim+1, int(dim/10)))
             plt.legend(loc='upper right')
-        plt.show(block=block)
+        plt.show()
     except:
         print("No se pudo levantar el perfil")
 
@@ -38,7 +38,7 @@ def graficar_energias(data, block=False):
     plt.xlabel("Iteraciones")
     plt.ylabel(r"$E_t/\epsilon_0$")
     plt.legend()
-    plt.show(block=block)
+    plt.show()
 
 if __name__=="__main__":    
     pass

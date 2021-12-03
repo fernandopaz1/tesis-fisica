@@ -29,7 +29,7 @@ void soc_generator()
 	limpiar_red(red, DIM);
 	limpiar_red(c, DIM);
 
-	if (cargar_red(red, DIM))
+	if (cargar_red(red, DIM,filename))
 	{
 		printf("%s\n", "Se cargó red");
 	}
@@ -91,7 +91,7 @@ void soc_generator()
 		e_anterior = e;
 	}
 
-	guardar_red(red, DIM);
+	guardar_red(red, DIM, filename);
 	save_energies(e_r, e_tot, T_Final);
 	save_avalancha(T, E_total_avalancha, P, nroAv);
 

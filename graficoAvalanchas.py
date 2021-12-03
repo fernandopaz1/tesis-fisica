@@ -48,7 +48,7 @@ def plot_loglog_fit(A,campo1,campo2,min,max, block=False):
     plt.yscale('log')
     plt.legend(loc='upper right')
     # plt.savefig("avalanchas.png")
-    plt.show(block=block)
+    plt.show()
     return pendiente
 
 
@@ -86,7 +86,7 @@ def plot_histograma_fit(A,campo, min,max, block=False):
     plt.xlabel(r'${campo}/\epsilon_0$'.format(campo=campo))
     plt.ylabel(r'$f({campo}/\epsilon_0)$'.format(campo=campo))
     plt.legend(loc='upper right')
-    plt.show(block=block) 
+    plt.show() 
     return pendiente
 
 if __name__ == "__main__":

@@ -2,9 +2,9 @@
 
 void headerNumerico(FILE *f, int n);
 void saveLinea(FILE *f, float *red, int dim);
-void guardar_red(float *red, int dim);
-int existe_archivo(char *nombre);
-bool cargar_red(float *red, int dim);
+void guardar_red(float *red, int dim, const char *filename);
+int existe_archivo(const char *nombre);
+bool cargar_red(float *red, int dim, const char *filename);
 void save_energies(float *e_r, float *e_tot, int T_Final);
 void save_avalancha(int *T, float *e_tot, float *P);
 
@@ -41,15 +41,15 @@ void saveLinea(FILE *f, float *red, int dim)
 	}
 }
 
-int existe_archivo(char *nombre)
+int existe_archivo(const char *nombre)
 {
 	return access(nombre, F_OK) == 0;
 }
 
-void guardar_red(float *red, int dim)
+void guardar_red(float *red, int dim, const char *filename)
 {
-	char filename[sizeof "data/red_equilibrio100.csv"];
-	sprintf(filename, "data/red_equilibrio%03d.csv", dim);
+	// char filename[sizeof "data/red_equilibrio100_Zc002.csv"];
+	// sprintf(filename, "data/red_equilibrio%03d_Zc%s.csv", dim,Z_STR);
 
 	
 	FILE *red_equilibrio = fopen(filename, "w+");
@@ -75,11 +75,11 @@ void guardar_red(float *red, int dim)
 
 }
 
-bool cargar_red(float *red, int dim)
+bool cargar_red(float *red, int dim, const char *filename)
 {
-	char buffer[10 * dim * dim * sizeof(float) + dim * dim * sizeof(char)], *eof;
-	char filename[sizeof "data/red_equilibrio100.csv"];
-	sprintf(filename, "data/red_equilibrio%03d.csv", dim);
+	// char buffer[10 * dim * dim * sizeof(float) + dim * dim * sizeof(char)], *eof;
+	// char filename[sizeof "data/red_equilibrio100_Zc002.csv"];
+	// sprintf(filename, "data/red_equilibrio%03d_Zc%s.csv", dim,Z_STR);
 	if (existe_archivo(filename))
 	{
 		FILE *red_equilibrio = fopen(filename, "r");

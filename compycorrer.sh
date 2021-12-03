@@ -11,6 +11,12 @@ if (("$1" < "10")); then
    exit 1
 fi
 
+dim_str="$dim"
+
+if (("$dim" < "100")); then
+  dim_str="0$dim"
+fi
+
 if (("$2" < "100")); then
   echo "No se aceptan menos de 100 iteraciones";
    exit 1
@@ -21,6 +27,8 @@ Z_sin_punto=$(echo $Z | sed 's/\.//g')
 echo "#define DIM $dim" > ./include/parametros.h
 echo "#define ITERACIONES $iteraciones" >> ./include/parametros.h
 echo "#define Z_c $Z" >> ./include/parametros.h
+
+echo "const char *filename= \"./data/red_equilibrio${dim_str}_Zc${Z_sin_punto}.csv\";" >> ./include/parametros.h
 
 name_avalanchas_csv="avalanchas${dim}_Zc${Z_sin_punto}.csv"
 name_serie_csv="serie${dim}_Zc${Z_sin_punto}"
@@ -34,6 +42,7 @@ time ./$file.e
 notify-send Simulacion "Se termino de ejecutar la simulación" 
 
 rm $file.e
+
 
 FILE2=datos.csv
 if test -f "$FILE2"; then
@@ -60,6 +69,7 @@ if test -f "$FILE"; then
     mv ./caracterizacion.csv ./data/$name_avalanchas_csv
 fi
 
+mv ./data/red_equilibrio${dim_str}.csv ./data/red_equilibrio${dim_str}_Zc${Z_sin_punto}.csv
 
 read -p "Queres analizar los datos con python? [ y | n ]:  " yn
   case $yn in
