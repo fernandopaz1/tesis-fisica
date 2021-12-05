@@ -5,6 +5,7 @@ reset
 dim=$1
 iteraciones=$2
 Z=$3
+overwrite=$4
 
 if (("$1" < "10")); then
   echo "No se aceptan redes menores a 10 de dimension";
@@ -27,16 +28,21 @@ Z_sin_punto=$(echo $Z | sed 's/\.//g')
 echo "#define DIM $dim" > ./include/parametros.h
 echo "#define ITERACIONES $iteraciones" >> ./include/parametros.h
 echo "#define Z_c $Z" >> ./include/parametros.h
+echo "#define OVERWRITE $overwrite" >> ./include/parametros.h
 
-echo "const char *filename= \"./data/red_equilibrio${dim_str}_Zc${Z_sin_punto}.csv\";" >> ./include/parametros.h
+#echo "const char *filename= \"./data/red_equilibrio${dim_str}_Zc${Z_sin_punto}.csv\";" >> ./include/parametros.h
+echo "const char *filename= \"./data/red_equilibrio${dim}.csv\";" >> ./include/parametros.h
+echo "const char *perfil_file= \"./data/perfil${dim}_Zc${Z_sin_punto}.csv\";" >> ./include/parametros.h
+
+
 
 name_avalanchas_csv="avalanchas${dim}_Zc${Z_sin_punto}.csv"
 name_serie_csv="serie${dim}_Zc${Z_sin_punto}"
 
 
-file=main
+file="main${dim}_Zc${Z_sin_punto}"
 
-g++ -o $file.e $file.cpp -Ofast -lboost_iostreams -lboost_system -lboost_filesystem
+g++ -o $file.e main.cpp -Ofast -lboost_iostreams -lboost_system -lboost_filesystem
 time ./$file.e
 
 notify-send Simulacion "Se termino de ejecutar la simulación" 
@@ -69,7 +75,10 @@ if test -f "$FILE"; then
     mv ./caracterizacion.csv ./data/$name_avalanchas_csv
 fi
 
-mv ./data/red_equilibrio${dim_str}.csv ./data/red_equilibrio${dim_str}_Zc${Z_sin_punto}.csv
+# mv ./data/red_equilibrio${dim_str}.csv ./data/red_equilibrio${dim_str}_Zc${Z_sin_punto}.csv
+
+# sleep 60
+# init 0
 
 read -p "Queres analizar los datos con python? [ y | n ]:  " yn
   case $yn in

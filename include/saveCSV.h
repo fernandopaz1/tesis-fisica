@@ -24,8 +24,19 @@ void headerNumerico(FILE *f, int n)
 	}
 }
 
-void saveLinea(FILE *f, float *red, int dim)
+void saveLinea(float *red, int dim)
 {
+	FILE *f= fopen(perfil_file, "w+");
+	for(int k=0;k<DIM;k++){
+        fprintf(f,"%d",k+1);
+        if(k<DIM-1){
+            fprintf(f,",");
+        }else{
+            fprintf(f,"\n");
+        }
+    }  
+	printf("%s", "Estoy guardando el perfil\n\n\n");
+
 	int m = dim / 2;
 	for (int k = 0; k < dim; k++)
 	{
@@ -39,6 +50,7 @@ void saveLinea(FILE *f, float *red, int dim)
 			fprintf(f, "\n");
 		}
 	}
+	fclose(f);
 }
 
 int existe_archivo(const char *nombre)
@@ -50,7 +62,10 @@ void guardar_red(float *red, int dim, const char *filename)
 {
 	// char filename[sizeof "data/red_equilibrio100_Zc002.csv"];
 	// sprintf(filename, "data/red_equilibrio%03d_Zc%s.csv", dim,Z_STR);
-
+	if(!OVERWRITE){
+		printf("\n\n%s\n\n","No se esta activada la sobreescritura");
+		return;
+	}
 	
 	FILE *red_equilibrio = fopen(filename, "w+");
 	for (int i = 0; i < dim; i++)

@@ -25,6 +25,15 @@ def graficar_perfil(dim, block=False):
     except:
         print("No se pudo levantar el perfil")
 
+def ultimo_perfil(perfil, dim):
+    plt.figure(3)
+    plt.plot(perfil.iloc[0], label="Perfil")
+    plt.xlabel(r"$k$")
+    plt.ylabel(r"$B(x_{},y_k)$".format(int(dim/2)))
+    # plt.xticks(np.arange(0, dim+1, int(dim/10)))
+    plt.legend(loc='upper right')
+    plt.show()
+   
 def graficar_energias(data, block=False):
     # plt.figure(1)
     # plt.plot(data["Iteraciones"],data["Energia_liberada"],  label="Energia liberada", linewidth=0.05,)

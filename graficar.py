@@ -37,16 +37,18 @@ number=str("_number"+sys.argv[4]) if int(sys.argv[4])>0 else str()
 
 
 
-data = pd.read_csv("data/serie{dim}_Zc{Z_c}{n}.csv".format(dim=dim,Z_c=Z_c,n=number))
+# data = pd.read_csv("data/serie{dim}_Zc{Z_c}{n}.csv".format(dim=dim,Z_c=Z_c,n=number))
 
-data = data[:-1]
-gE.graficar_energias(data)
-gE.graficar_perfil(dim, True)
+# data = data[:-1]
+# gE.graficar_energias(data)
+# gE.graficar_perfil(dim, True)
 
-
+# df = data.iloc[0:0]
 
 # exit()
 
+perfil = pd.read_csv("data/perfil{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
+gE.ultimo_perfil(perfil, dim)
 
 avalanchas = pd.read_csv("data/avalanchas{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
 avalanchas = avalanchas[:-1]
@@ -59,19 +61,19 @@ avalanchas =avalanchas[avalanchas !=0]
 # Los parametros numericos son el minimo y maximo a considerar para hacer el ajuste
 #################
 
-pendiente_P_vs_E=gA.plot_loglog_fit(avalanchas,"P","E",10,1000)
-pendiente_P_vs_T=gA.plot_loglog_fit(avalanchas,"T","P",100,100000)
+# pendiente_P_vs_E=gA.plot_loglog_fit(avalanchas,"P","E",10,1000)
+# pendiente_P_vs_T=gA.plot_loglog_fit(avalanchas,"T","P",100,100000)
 
-print("Pendiente P vs E",pendiente_P_vs_E)
-print("Pendiente P vs T",pendiente_P_vs_T)
+# print("Pendiente P vs E",pendiente_P_vs_E)
+# print("Pendiente P vs T",pendiente_P_vs_T)
 
-pendiente_E=gA.plot_histograma_fit(avalanchas,"E",37,100000)
-pendiente_P=gA.plot_histograma_fit(avalanchas,"P",12,300)
-pendiente_T=gA.plot_histograma_fit(avalanchas,"T",10,900)
+pendiente_E=gA.plot_histograma_fit(avalanchas,"E",37,740000)
+pendiente_P=gA.plot_histograma_fit(avalanchas,"P",12,630)
+pendiente_T=gA.plot_histograma_fit(avalanchas,"T",10,2400)
 
 print("Pendiente E",pendiente_E)
 print("Pendiente P",pendiente_P)
-print("Pendiente P",pendiente_T)
+print("Pendiente T",pendiente_T)
 
 #################
 #  Pregunta si queremos guardar todas las pendientes de los graficos
