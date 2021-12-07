@@ -67,12 +67,14 @@ def plot_histograma_fit(A,campo, min,max, block=False):
     P=A[campo]
     if(campo=="T"):
         bins=50
+    elif(campo=="P"):
+        bins=50
     else:
-        bins=500
+        bins=10000
     logbins= np.logspace(np.log10(P.min()), np.log10(P.max()), bins)
     counts,bin_edges=np.histogram(P,bins=logbins,density=True)
     bins = (bin_edges[:-1] + bin_edges[1:])/2
-    pendiente=fit_histograma(bins,counts,min,max)
+    fit_histograma(bins,counts,min,max)
     plt.hist(P,bins=logbins,label=r'$f({}/\epsilon_0)$'.format(campo),alpha=0.5,histtype=histType,density=True)
     
     fit = pl.Fit(P, xmin=min, xmax=max, fit_method="KS")
@@ -87,7 +89,7 @@ def plot_histograma_fit(A,campo, min,max, block=False):
     plt.ylabel(r'$f({campo}/\epsilon_0)$'.format(campo=campo))
     plt.legend(loc='upper right')
     plt.show() 
-    return pendiente
+    return alpha
 
 if __name__ == "__main__":
     avalanchas = pd.read_csv("caracterizacion.csv") 

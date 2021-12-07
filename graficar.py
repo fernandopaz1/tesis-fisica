@@ -43,17 +43,20 @@ number=str("_number"+sys.argv[4]) if int(sys.argv[4])>0 else str()
 # gE.graficar_energias(data)
 # gE.graficar_perfil(dim, True)
 
-# df = data.iloc[0:0]
+# data = data.iloc[0:0]
 
 # exit()
 
 perfil = pd.read_csv("data/perfil{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
 gE.ultimo_perfil(perfil, dim)
 
+perfil = perfil.iloc[0:0]
+
 avalanchas = pd.read_csv("data/avalanchas{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
 avalanchas = avalanchas[:-1]
 avalanchas =avalanchas[avalanchas !=0]
 
+print(len(avalanchas["nro"]))
 
 #################
 # Las funciones plot hacen el grafico en escala
@@ -67,9 +70,9 @@ avalanchas =avalanchas[avalanchas !=0]
 # print("Pendiente P vs E",pendiente_P_vs_E)
 # print("Pendiente P vs T",pendiente_P_vs_T)
 
-pendiente_E=gA.plot_histograma_fit(avalanchas,"E",37,740000)
-pendiente_P=gA.plot_histograma_fit(avalanchas,"P",12,630)
-pendiente_T=gA.plot_histograma_fit(avalanchas,"T",10,2400)
+pendiente_E=gA.plot_histograma_fit(avalanchas,"E",50,20000)
+pendiente_P=gA.plot_histograma_fit(avalanchas,"P",7,160)
+pendiente_T=gA.plot_histograma_fit(avalanchas,"T",10,590)
 
 print("Pendiente E",pendiente_E)
 print("Pendiente P",pendiente_P)
@@ -90,3 +93,4 @@ if respuesta == "y":
     print_to_csv(List,nombre_csv)
 
 
+avalanchas = avalanchas.iloc[0:0]
