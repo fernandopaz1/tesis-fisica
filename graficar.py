@@ -37,7 +37,7 @@ number=str("_number"+sys.argv[4]) if int(sys.argv[4])>0 else str()
 
 
 
-# data = pd.read_csv("data/serie{dim}_Zc{Z_c}{n}.csv".format(dim=dim,Z_c=Z_c,n=number))
+# data = pd.read_csv("chaosData/serie{dim}_Zc{Z_c}{n}.csv".format(dim=dim,Z_c=Z_c,n=number))
 
 # data = data[:-1]
 # gE.graficar_energias(data)
@@ -47,12 +47,12 @@ number=str("_number"+sys.argv[4]) if int(sys.argv[4])>0 else str()
 
 # exit()
 
-perfil = pd.read_csv("data/perfil{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
+perfil = pd.read_csv("chaosData/perfil{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
 gE.ultimo_perfil(perfil, dim)
 
 perfil = perfil.iloc[0:0]
 
-avalanchas = pd.read_csv("data/avalanchas{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
+avalanchas = pd.read_csv("chaosData/avalanchas{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
 avalanchas = avalanchas[:-1]
 avalanchas =avalanchas[avalanchas !=0]
 
@@ -84,7 +84,7 @@ print("Pendiente T",pendiente_T)
 #################
 
 respuesta = input("¿Desea guardar los datos? (y/n)")
-nombre_csv="./data/pendientes_avalanchas.csv"
+nombre_csv="./chaosData/pendientes_avalanchas.csv"
 if respuesta == "y":
     if(not os.path.isfile(nombre_csv)):
         List=["dim","iteraciones","avalanchas",'threshold',"alpha_e","alpha_p",'alpha_t']

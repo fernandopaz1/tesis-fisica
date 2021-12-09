@@ -112,6 +112,13 @@ bool cargar_red(float *red, int dim, const char *filename)
 				}
 			}
 		}
+		if(PERTURBADO){
+			for(int i=0; i<dim; i++){
+				for(int j=0;j<dim;j++){
+					*(red+i+dim*j)=campo_aleatoro(PERTURBCION*(-1), PERTURBCION);
+				}
+			}
+		}
 		fclose(red_equilibrio);
 		return true;
 	}
