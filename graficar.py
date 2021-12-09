@@ -7,49 +7,79 @@ import powerlaw as pl
 import sys
 import os
 from csv import writer
-
-# def print_to_csv(List,nombre_csv):
-#     # Open our existing CSV file in append mode
-#     # Create a file object for this file
-#     with open(nombre_csv, 'a') as f_object:
-
-#         # Pass this file object to csv.writer()
-#         # and get a writer object
-#         writer_object = writer(f_object)
-
-#         # Pass the list as an argument into
-#         # the writerow()
-#         writer_object.writerow(List)
-
-#         #Close the file object
-#         f_object.close()
-
-
-
-
-# exit()
+import re
 
 dim=int(sys.argv[1])
 iteraciones=int(sys.argv[2])
 Z_c_original=sys.argv[3]
 Z_c=Z_c_original.replace(".","")
 
+def plot_avalanchas(path):
+    lab="Original"
+    if re.findall("pert\d\d", filename):
+        aux=path[-6:-4].replace(".","")
+        par=aux if int(aux)>=10 else aux[0]+"."+aux[1]
+        lab=r'$\eta$ {param}'.format(param=par)
+    data = pd.read_csv(path)
+    plt.figure(3)
+    plt.plot(data['nro'],data['P'],label=lab )
+    plt.xlabel("Número de avalancha")
+    plt.ylabel("P")
+    plt.legend(loc='upper right', ncol=3)
+
+    plt.figure(1)
+    plt.plot(data['nro'],data['E'],label=lab )
+    plt.xlabel("Número de avalancha")
+    plt.ylabel("E")
+    plt.legend(loc='upper right', ncol=3)
+
+    plt.figure(2)
+    plt.plot(data['nro'],data['T'],label=lab )
+    plt.xlabel("Número de avalancha")
+    plt.ylabel("Duración")
+    plt.legend(loc='upper right', ncol=3)
+    data = data.iloc[0:0]
 
 
-data = pd.read_csv("chaosData/avalanchas{dim}_Zc{Z_c}.csv".format(dim=dim,Z_c=Z_c))
+def plot_energias(path, original):
+    lab="Original"
+    if re.findall("pert\d\d", filename):
+        aux=path[-6:-4].replace(".","")
+        par=aux if int(aux)>=10 else aux[0]+"."+aux[1]
+        lab=r'$\eta$ {param}'.format(param=par)
+    data = pd.read_csv(path)
+    
+    plt.figure(5)
+    plt.plot(data['Iteraciones'],data['Energia_total'],label=lab)
+    plt.xlabel("Iteracion")
+    plt.ylabel("Energia Total")
+    plt.legend(loc='upper right', ncol=3)
 
-data2 = pd.read_csv("chaosData/avalanchas{dim}_Zc{Z_c}_1.csv".format(dim=dim,Z_c=Z_c))
+    plt.figure(6)
+    plt.plot(data['Iteraciones'],data['Energia_liberada'],label=lab)
+    plt.xlabel("Iteracion")
+    plt.ylabel("Energia Liberada")
+    plt.legend(loc='upper right', ncol=3)
 
+    plt.figure(7)
+    plt.plot(data['Iteraciones'],data['Energia_total']-original['Energia_total'],label=lab)
+    plt.xlabel("Iteracion")
+    plt.ylabel("Diferencia de Energía")
+    plt.legend(loc='upper right', ncol=3)
+    data = data.iloc[0:0]
 
-plt.figure(1)
-plt.plot(data['nro'],data['T'])
-plt.plot(data2['nro'],data2['T'])
+original=pd.read_csv("chaosData/serie64_Zc02_pert0.csv")
+for filename in os.listdir("chaosData/"):
+    if "avalanchas" in filename: 
+        path=os.path.join("chaosData/", filename)
+        plot_avalanchas(path)
+        continue
+    elif "serie" in filename: 
+        path=os.path.join("chaosData/", filename)
+        plot_energias(path, original)
+        continue
+    else:
+        continue
+    
 plt.show()
-
-# data = data[:-1]
-# gE.graficar_energias(data)
-# gE.graficar_perfil(dim, True)
-
-# data = data.iloc[0:0]
-
-# exit()
+exit()

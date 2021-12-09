@@ -63,8 +63,10 @@ void guardar_red(float *red, int dim, const char *filename)
 	// char filename[sizeof "data/red_equilibrio100_Zc002.csv"];
 	// sprintf(filename, "data/red_equilibrio%03d_Zc%s.csv", dim,Z_STR);
 	if(!OVERWRITE){
-		printf("\n\n%s\n\n","No se esta activada la sobreescritura");
+		printf("\n\n%s\n\n","No esta activada la sobreescritura de la red");
 		return;
+	}else{
+		printf("\n\n%s\n\n","Warning: Esta activada la sobreescritura de la red");
 	}
 	
 	FILE *red_equilibrio = fopen(filename, "w+");
@@ -112,10 +114,13 @@ bool cargar_red(float *red, int dim, const char *filename)
 				}
 			}
 		}
+		float aleatorio;
 		if(PERTURBADO){
 			for(int i=0; i<dim; i++){
 				for(int j=0;j<dim;j++){
-					*(red+i+dim*j)=campo_aleatoro(PERTURBCION*(-1), PERTURBCION);
+					aleatorio=campo_aleatoro(PERTURBCION*(-1), PERTURBCION);
+					*(red+i+dim*j)+=aleatorio;
+					printf("%lf\n", aleatorio);
 				}
 			}
 		}
