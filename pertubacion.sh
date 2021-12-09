@@ -22,10 +22,10 @@ if (("$2" < "100")); then
    exit 1
 fi
 
-./compycorrer.sh $dim $iteraciones $Z $overwrite false
-sleep 5
-echo "Segunda simulacion"
-./compycorrer.sh $dim $iteraciones $Z $overwrite true
+./compycorrer.sh $dim $iteraciones $Z $overwrite "false"
+# sleep 10
+# echo "Segunda simulacion"
+# ./compycorrer.sh $dim $iteraciones $Z $overwrite "true"
 
 
 read -p "Queres analizar los datos con python? [ y | n ]:  " yn

@@ -92,7 +92,7 @@ void soc_generator()
 	}
 
 	guardar_red(red, DIM, filename);
-	// save_energies(e_r, e_tot, T_Final);
+	save_energies(e_r, e_tot, T_Final);
 	save_avalancha(T, E_total_avalancha, P, nroAv);
 	saveLinea(red,DIM);
 

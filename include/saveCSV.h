@@ -130,7 +130,7 @@ bool cargar_red(float *red, int dim, const char *filename)
 
 void save_energies(float *e_r, float *e_tot, int T_Final)
 {
-	FILE *fp = fopen("datos.csv", "w+");
+	FILE *fp = fopen(series_file, "w+");
 	fprintf(fp, "Iteraciones,Energia_liberada,Energia_total\n");
 	for (int t = 0; t < T_Final; t++)
 	{
@@ -145,8 +145,7 @@ void save_energies(float *e_r, float *e_tot, int T_Final)
 
 void save_avalancha(int *T, float *e_tot, float *P, int T_Final)
 {
-	printf("%d",T_Final);
-	FILE *fp3 = fopen("caracterizacion.csv", "w+");
+	FILE *fp3 = fopen(avalanchas_file, "w+");
 	// fprintf(fp3,"nro,T,E,P,A,R\n");
 	fprintf(fp3, "nro,T,E,P\n");
 	for (int t = 0; t < T_Final; t++)
