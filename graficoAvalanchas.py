@@ -9,7 +9,7 @@ import sys
 
 bin=1000
 bin_e=100
-histType="stepfilled" #bar step stepfilled
+histType="step" #bar step stepfilled
 avalanchas=[]
 
 def fitLogaritmico(x,y):
