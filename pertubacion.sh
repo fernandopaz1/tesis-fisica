@@ -1,11 +1,22 @@
 #!/bin/bash
+
+#########################
+#
+# Script para correr simulaciones de un sistema sin perturbar y otro perturbado
+# Una vez finalizadad la simulacion pregunta si se quiere analizar los datos obtenidos
+#
+# Ejemplo: ./pertubacion.sh <dim> <iteraciones> <Z> <overwrite> <perturbacion>
+#
+#########################
+
+
 reset
 
-dim=$1
-iteraciones=$2
-Z=$3
-overwrite=$4
-perturbacion=$5
+dim=$1                    # Dimension de la red
+iteraciones=$2            # Cantidad de iteraciones
+Z=$3                      # Threshold de la red
+overwrite=$4              # Indica si se sobreescribe el campo en equilibrio guardado
+perturbacion=$5           # Aplitud con la cual se hara la simulacion perturbada (es un porcentaje del B_max de la red cargada)
 
 if (("$1" < "10")); then
   echo "No se aceptan redes menores a 10 de dimension";

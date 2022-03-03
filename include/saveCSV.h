@@ -92,14 +92,16 @@ void guardar_red(float *red, int dim, const char *filename)
 
 }
 
+/*
+Carga en memoria la red a la que apunta el puntero filename
+Si la constante perturbado esta en true ademas perturba la red
+*/
 bool cargar_red(float *red, int dim, const char *filename)
 {
-	// char buffer[10 * dim * dim * sizeof(float) + dim * dim * sizeof(char)], *eof;
-	// char filename[sizeof "data/red_equilibrio100_Zc002.csv"];
-	// sprintf(filename, "data/red_equilibrio%03d_Zc%s.csv", dim,Z_STR);
 	if (existe_archivo(filename))
 	{
 		FILE *red_equilibrio = fopen(filename, "r");
+		double B_max =-INFINITY;
 		for (int i = 0; i < dim; i++)
 		{
 			for (int j = 0; j < dim; j++)
@@ -112,15 +114,19 @@ bool cargar_red(float *red, int dim, const char *filename)
 				{
 					fscanf(red_equilibrio, "%f,", red + dim * i + j);
 				}
+				if(*(red + dim * i + j)>B_max){
+					B_max=*(red + dim * i + j);
+				}
 			}
 		}
 		float aleatorio;
+		float amplitud_pert = PERTURBACION*B_max/100.0; 
+		printf("\n\n\n Amplitud de Perturbacion: %lf \n B_max: %lf \n\n\n",amplitud_pert, B_max);
 		if(PERTURBADO){
 			for(int i=0; i<dim; i++){
 				for(int j=0;j<dim;j++){
-					aleatorio=campo_aleatoro(PERTURBCION*(-1), PERTURBCION);
+					aleatorio=campo_aleatoro(-amplitud_pert, amplitud_pert);
 					*(red+i+dim*j)+=aleatorio;
-					printf("%lf\n", aleatorio);
 				}
 			}
 		}

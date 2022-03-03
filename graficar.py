@@ -1,3 +1,13 @@
+####################################
+#
+# Gráficos de avalanchas y energias
+#  
+# Ejemplo de invocacion: python graficar.py <dim> <iteraciones> <Z>
+# El threshold debe ser pasado como un string . Por ejemplo "0.05"
+#
+####################################
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import graficoAvalanchas as gA
@@ -9,11 +19,12 @@ import os
 from csv import writer
 import re
 
-dim=int(sys.argv[1])
-iteraciones=int(sys.argv[2])
-Z_c_original=sys.argv[3]
+dim=int(sys.argv[1])                    # Dimension de la red
+iteraciones=int(sys.argv[2])            # Cantidad de iteracines
+Z_c_original=sys.argv[3]                # Threshold de la red en formato string sin punto
 Z_c=Z_c_original.replace(".","")
 
+# Funcion que hace Graficos de P, E y T en funcion del numero de avalancha
 def plot_avalanchas(path):
     lab="Original"
     if re.findall("pert\d\d", filename):
@@ -40,7 +51,8 @@ def plot_avalanchas(path):
     plt.legend(loc='upper right', ncol=3)
     data = data.iloc[0:0]
 
-
+# Graficos de energia liberada, energia total y diference de energia entre
+# perturbacion y original.
 def plot_energias(path, original):
     lab="Original"
     if re.findall("pert\d\d", filename):
@@ -68,6 +80,7 @@ def plot_energias(path, original):
     plt.legend(loc='upper right', ncol=3)
     data = data.iloc[0:0]
 
+# iteracion sobre toda la carpeta chaos data graficando
 original=pd.read_csv("chaosData/serie64_Zc02_pert0.csv")
 for filename in os.listdir("chaosData/"):
     if "avalanchas" in filename: 

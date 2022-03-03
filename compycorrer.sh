@@ -1,12 +1,18 @@
+########################################
+#
+# Este script se encarga de compilar y ejecutar la simulacion principal para luego analizar
+# los datos con otro script de python.
+#
+################
 #!/bin/bash
 reset
 
-dim=$1
-iteraciones=$2
-Z=$3
-overwrite=$4
-perturbado=$5
-perturbacion=$6
+dim=$1                #Dimension de la red
+iteraciones=$2        # Cantidad de iteraciones
+Z=$3                  # Threshold del sistema
+overwrite=$4          # Indica si al correr las simulaciones se sobreescribe la red en equilibrio
+perturbado=$5         # Indica si al cargar la red se debe perturbar
+perturbacion=$6       # Aplitud de la perturbacion (es un porcentaje de B_max de la red)
 
 if (("$1" < "10")); then
   echo "No se aceptan redes menores a 10 de dimension";
@@ -44,7 +50,7 @@ echo "const char *avalanchas_file= \"./chaosData/avalanchas${dim}_Zc${Z_sin_punt
 
 
 echo "#define PERTURBADO $perturbado" >> ./include/parametros.h
-echo "#define PERTURBCION $perturbacion" >> ./include/parametros.h
+echo "#define PERTURBACION $perturbacion" >> ./include/parametros.h
 
 
 
