@@ -1,43 +1,63 @@
-import pytest
 class Clasificador:
     def __init__(self, n):
+        if(n<2):
+            raise ValueError('No se puede calcular la entropia de permutacion para n<2') 
         self.order = n
-        self.classifier = {}
+        self._classifier = {}
+        self._total = 0
     
-    # Clasifica una lista de numeros dependiendo si la sucecion crece o decrece asignando 1 y 0
-    # Cualquier lista de n elementos se codifica en un numero binario de n-1 digitos.
     @staticmethod
-    def get_type(*args):
+    def get_type(*args: float):
+        """Toma una lista de numeros y los codifica un binario
+        con 1 si la sucesión crece y 0 si decrece.
+
+        Keyword arguments:
+        *args -- lista de numeros
+        """
         a=0
         numberList =[item for item in args]
         for i in range(0, len(numberList)-1):
             a = a << 1
             if(numberList[i] < numberList[i+1]):
-                print("entro")
                 a = a | 1
-            print(a)
         return a
     
+    def clasify_segment(self, *args: float):
+        """Clasifica una lista de numeros en un diccionario.
 
-# codificaccion en binario 00
-def test_classification_all_minor():
-    assert Clasificador.get_type(3,2,1) == 0
+        Keyword arguments:
+        *args -- lista de numeros
+        """
+        key = Clasificador.get_type(*args)
+        self.total = self.total+1
+        self._classifier[key]= self._classifier.get(key, 0) + 1
+    
+    @property
+    def total(self):
+        return self._total
+    
+    @total.setter
+    def total(self, total):
+        self._total = total
 
-# codificaccion en binario 11
-def test_classification_all_mayor():
-    assert Clasificador.get_type(10,11,12) == 3
+    def get_aperances(self, key: int):
+        """Dada una key nos dice cuantas veces ocurre esa combinacion.
 
-# codificaccion en binario 10
-def test_classification_all_mayor_menor():
-    assert Clasificador.get_type(10,11,9) == 2
+        Keyword arguments:
+        key -- entero positivo
+        """
+        return self._classifier.get(key,0)
 
-# codificaccion en binario 01
-def test_classification_all_menor_mayor():
-    assert Clasificador.get_type(10,9,100) == 1
+    def probability(self, key):
+        return self.get_aperances(key)/self.total
 
-# codificaccion en binario 00
-def test_classification_constante():
-    assert Clasificador.get_type(1,1,1) == 0
+    def classify_all(self, *args):
+        series = list(args)
+        for i in range(0, len(series)-self.order+1):
+            self.clasify_segment(*series[i:i+self.order])
+    
+    def series_types(self):
+        return self._classifier.keys()
 
 if __name__ == "__main__":
     print("Clasificador")
