@@ -106,17 +106,46 @@ def plot_entropy(path, filename):
     plt.legend(loc='upper right', ncol=3)
     data = data.iloc[0:0]
 
+def plot_lyapunov(path, filename):
+    lab = get_label(path, filename)
+    data = pd.read_csv(path)
+    valor_inicial = data['Energia_total'][0]
+    # for i in range(0,20):
+    #     print(data['Energia_total'][i+1]-data['Energia_total'][i])
+    # return
+    prom = 1000
+    lyapunov = []
+    points = len(data['Energia_total'])//prom-1
+    for i in range(0,points):
+        actual_point = 0
+        for j in range(0,prom-1):
+            value = np.abs(data['Energia_total'][i*prom +j+1]-data['Energia_total'][i*prom+j])
+            if(value!=0):
+                actual_point += np.log(value)
+            # else:
+            #     print(data['Energia_total'][i*1000 +j+1],data['Energia_total'][i*1000 +j])
+        actual_point /= prom
+        lyapunov.append(actual_point)
+    
+    plt.figure(9)
+    plt.plot(range(0,points),lyapunov,label=lab)
+    plt.xlabel("Orden")
+    plt.ylabel("<h(n)>")
+    plt.legend(loc='upper right', ncol=3)
+    data = data.iloc[0:0]
+
 # iteracion sobre toda la carpeta chaos data graficando
 original=pd.read_csv("chaosData/serie64_Zc02_pert0.csv")
 for filename in os.listdir("chaosData/"):
     if "avalanchas" in filename: 
         path=os.path.join("chaosData/", filename)
-        plot_avalanchas(path)
+        # plot_avalanchas(path)
         continue
     elif "serie" in filename: 
         path=os.path.join("chaosData/", filename)
-        plot_energias(path, original)
-        plot_entropy(path, filename)
+        # plot_energias(path, original)
+        # plot_entropy(path, filename)
+        plot_lyapunov(path, filename)
         continue
     else:
         continue
