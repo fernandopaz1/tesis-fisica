@@ -58,7 +58,8 @@ def fit_histograma(bins,counts, min,max):
     subset=filtrar_dataframe(df_bins,0,1,min,max)
     fit, coeffs=fitLogaritmico(subset[0],subset[1])
     yfit= lambda x: np.exp(fit(np.log(x)))
-    plt.plot(subset[0],yfit(subset[0]), color="red", label="Pendiente {pendiente:.2f}".format(pendiente=coeffs[0]))
+    plt.plot(subset[0],yfit(subset[0]), color="red")#, label="Pendiente {pendiente:.2f}".format(pendiente=coeffs[0]))
+
     return coeffs[0]
 
 
@@ -74,14 +75,19 @@ def plot_histograma_fit(A,campo, min,max, block=False):
     logbins= np.logspace(np.log10(P.min()), np.log10(P.max()), bins)
     counts,bin_edges=np.histogram(P,bins=logbins,density=True)
     bins = (bin_edges[:-1] + bin_edges[1:])/2
-    fit_histograma(bins,counts,min,max)
-    plt.hist(P,bins=logbins,label=r'$f({}/\epsilon_0)$'.format(campo),alpha=0.5,histtype=histType,density=True)
+
+    # Ajuste lineal de log-log
+    pendiente_ajuste_lineal = fit_histograma(bins,counts,min,max)
     
+    # plt.hist(P,bins=logbins,label=r'$f({}/\epsilon_0)$'.format(campo),alpha=0.5,histtype=histType,density=True)
+    
+    # Ajuste via libreria powerlaw
     fit = pl.Fit(P, xmin=min, xmax=max, fit_method="KS")
     alpha=fit.power_law.alpha
     sigma=fit.power_law.sigma
-    fit.power_law.plot_pdf(color = "b", label = r'Powerlaw $\alpha={pendiente:.2f}\pm{error:.2f}$'.format(pendiente=alpha,error=sigma))
-    pl.plot_pdf(P,color = "b", label = r'Dist con bins de powerlaw')
+    error = sigma + np.abs(np.abs(alpha)-np.abs(pendiente_ajuste_lineal)) 
+    fit.power_law.plot_pdf(color = "b", label = r'Pendiente $\alpha=-({pendiente:.2f}\pm{error:.2f}$)'.format(pendiente=alpha,error=error))
+    pl.plot_pdf(P,color = "g", label = r'$f({campo}/\epsilon_0)$'.format(campo=campo))
     
     plt.xscale('log')
     plt.yscale('log')
@@ -89,7 +95,7 @@ def plot_histograma_fit(A,campo, min,max, block=False):
     plt.ylabel(r'$f({campo}/\epsilon_0)$'.format(campo=campo))
     plt.legend(loc='upper right')
     plt.show() 
-    return alpha
+    return (-alpha, error)
 
 if __name__ == "__main__":
     avalanchas = pd.read_csv("caracterizacion.csv") 

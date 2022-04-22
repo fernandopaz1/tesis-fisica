@@ -33,7 +33,11 @@ dim=int(sys.argv[1])
 iteraciones=int(sys.argv[2])
 Z_c_original=sys.argv[3]
 Z_c=Z_c_original.replace(".","")
-number=str("_number"+sys.argv[4]) if int(sys.argv[4])>0 else str()
+try:
+    number=str("_number"+sys.argv[4]) 
+except IndexError:
+    number=str()
+# number=str("_number"+sys.argv[4]) if int(sys.argv[4])>0 else str()
 
 
 
@@ -70,16 +74,16 @@ print(len(avalanchas["nro"]))
 # print("Pendiente P vs E",pendiente_P_vs_E)
 # print("Pendiente P vs T",pendiente_P_vs_T)
 
-pendiente_E=gA.plot_histograma_fit(avalanchas,"E",50,20000)
-pendiente_P=gA.plot_histograma_fit(avalanchas,"P",7,160)
-pendiente_T=gA.plot_histograma_fit(avalanchas,"T",10,590)
+pendiente_E, pendiente_E_error=gA.plot_histograma_fit(avalanchas,"E",37,100000)
+pendiente_P, pendiente_P_error=gA.plot_histograma_fit(avalanchas,"P",12,300)
+pendiente_T, pendiente_T_error=gA.plot_histograma_fit(avalanchas,"T",10,900)
 
 print("Pendiente E",pendiente_E)
 print("Pendiente P",pendiente_P)
 print("Pendiente T",pendiente_T)
 
 #################
-#  Pregunta si queremos guardar todas las pendientes de los graficos
+#  Pregunta si queremos guardar todas las pendientes de los gráficos
 #  en un csv
 #################
 
@@ -87,9 +91,9 @@ respuesta = input("¿Desea guardar los datos? (y/n)")
 nombre_csv="./data/pendientes_avalanchas.csv"
 if respuesta == "y":
     if(not os.path.isfile(nombre_csv)):
-        List=["dim","iteraciones","avalanchas",'threshold',"alpha_e","alpha_p",'alpha_t']
+        List=["dim","iteraciones","avalanchas",'threshold',"alpha_e","alpha_e_err","alpha_p","alpha_p_err",'alpha_t',"alpha_t_err"]
         print_to_csv(List,nombre_csv)
-    List=[dim,iteraciones,len(avalanchas["nro"]),Z_c_original,pendiente_E,pendiente_P,pendiente_T]
+    List=[dim,iteraciones,len(avalanchas["nro"]),Z_c_original,pendiente_E,pendiente_E_error,pendiente_P,pendiente_P_error,pendiente_T,pendiente_T_error]
     print_to_csv(List,nombre_csv)
 
 
