@@ -40,11 +40,13 @@ echo "Segunda simulacion"
 ./compycorrer.sh $dim $iteraciones $Z $overwrite true "$perturbacion"
 
 
-read -p "Queres analizar los datos con python? [ y | n ]:  " yn
-  case $yn in
-      [Yy]* ) python graficar.py $1 $2 $3;
-              python graficoEnergias.py $1;;
-      [Nn]* ) exit;;
-  esac
+python graficar.py $1 $2 $3 $5
+python graficoEnergias.py $1
+# read -p "Queres analizar los datos con python? [ y | n ]:  " yn
+#   case $yn in
+#       [Yy]* ) python graficar.py $1 $2 $3 $5;
+#               python graficoEnergias.py $1;;
+#       [Nn]* ) exit;;
+#   esac
 
 
